@@ -507,7 +507,7 @@ export default function Home() {
           <div className="pixel-border bg-white px-4 py-3 text-sm leading-relaxed">
             <p>
               Art in its purest form is a manifestation of individuality. The
-              no-collab thesis asserts that the very essence of Bitcoin Puppets'
+              no-collab thesis asserts that the very essence of Bitcoin Puppets&apos;
               unique vision and narrative is the expression of a single artist.
               Artistic expression flourishes unbridled by compromise or
               dilution. Collaborations in the ordinals/NFT ecosystem often

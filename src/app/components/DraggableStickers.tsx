@@ -105,7 +105,7 @@ export default function DraggableStickers() {
 		event.currentTarget.setPointerCapture(event.pointerId);
 	};
 
-	const handleClick = (event: React.MouseEvent, sticker: Sticker) => {
+	const handleClick = (event: React.MouseEvent) => {
 		if (movedRef.current) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -120,7 +120,7 @@ export default function DraggableStickers() {
 					href={sticker.link}
 					target={sticker.link ? "_blank" : undefined}
 					rel={sticker.link ? "noopener noreferrer" : undefined}
-					onClick={(event) => handleClick(event, sticker)}
+					onClick={handleClick}
 					className="sticker pointer-events-auto select-none"
 					style={{
 						"--x": `${sticker.x}px`,
