@@ -1,0 +1,1 @@
+- gallery view hooked up to magic eden

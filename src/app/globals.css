@@ -1,26 +1,118 @@
 @import "tailwindcss";
 
 :root {
-	--background: #ffffff;
-	--foreground: #171717;
+	--background: #f7f0d2;
+	--foreground: #1a1a1a;
+	--win-blue: #0b5fa5;
+	--win-yellow: #f9d64a;
+	--win-pink: #ff6bd6;
+	--win-green: #8cff66;
+	--win-purple: #6b5cff;
+	--win-gray: #c9c9c9;
+	--win-shadow: #222222;
+	--font-comic: "Comic Sans MS", "Comic Sans", "Comic Neue", "Chalkboard SE", "Marker Felt", "Trebuchet MS", sans-serif;
 }
 
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+	--font-comic: var(--font-comic);
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
+		--background: #111018;
+		--foreground: #f9f4e7;
 	}
 }
 
 body {
 	background: var(--background);
 	color: var(--foreground);
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: var(--font-comic);
+	background-image: url("/puppets_background.avif");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	-webkit-font-smoothing: none;
+	-moz-osx-font-smoothing: auto;
+	text-rendering: optimizeSpeed;
+}
+
+img,
+video,
+canvas {
+	image-rendering: pixelated;
+}
+
+.sticker {
+	position: absolute;
+	left: 0;
+	top: 0;
+	transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0)) scale(var(--scale, 1));
+	transform-origin: center;
+	transition: transform 120ms ease;
+	cursor: grab;
+	z-index: 50;
+	touch-action: none;
+	overflow: visible;
+}
+
+.sticker:hover {
+	--scale: 1.08;
+}
+
+.sticker:active {
+	cursor: grabbing;
+}
+
+
+html,
+body {
+	cursor: url("/sym46.png") 0 0, crosshair !important;
+}
+
+*,
+*::before,
+*::after,
+a,
+button,
+summary {
+	cursor: url("/sym46.png") 0 0, crosshair !important;
+}
+
+::selection {
+	background: var(--win-pink);
+	color: #000;
+}
+
+.pixel-border {
+	box-shadow: 3px 3px 0 var(--win-shadow);
+	border: 3px solid #000;
+}
+
+.window-titlebar {
+	background: linear-gradient(90deg, var(--win-blue), #1a88e6);
+	color: #fff;
+}
+
+.marquee {
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.marquee span {
+	display: inline-block;
+	padding-left: 100%;
+	animation: marquee 18s linear infinite;
+}
+
+@keyframes marquee {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
 }

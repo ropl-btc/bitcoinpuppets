@@ -1,47 +1,50 @@
-# OpenNext Starter
+# Bitcoin Puppets Community Site
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A community-led hub for the Bitcoin Puppets Ordinals collection. This site embraces the chaotic, retro, and playful vibe of the Puppets while keeping the codebase clean, fast, and deployable on Cloudflare Workers via OpenNext.
 
-## Getting Started
+## Stack
 
-Read the documentation at https://opennext.js.org/cloudflare.
+- Next.js (App Router)
+- Tailwind CSS
+- OpenNext adapter for Cloudflare Workers
+- pnpm
 
-## Develop
-
-Run the Next.js development server:
-
-```bash
-npm run dev
-# or similar package manager command
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-## Preview
-
-Preview the application locally on the Cloudflare runtime:
+## Local Development
 
 ```bash
-npm run preview
-# or similar package manager command
+pnpm dev
 ```
 
-## Deploy
+Open http://localhost:3000.
 
-Deploy the application to Cloudflare:
+## Cloudflare Preview (workerd)
+
+Run the site using the Cloudflare runtime to catch Workers-specific issues early:
 
 ```bash
-npm run deploy
-# or similar package manager command
+pnpm preview
 ```
 
-## Learn More
+## Deploy (Cloudflare Workers)
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm deploy
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Design is intentionally “de-optimized”: bold borders, loud colors, and chaotic layout.
+- Typography favors Comic Sans-style fonts for the full degen vibe.
+- Global rendering disables antialiasing to preserve pixelated assets.
+- Background image is fixed and fills the full viewport.
+
+## Repository Layout
+
+- `src/app/page.tsx`: single-page home layout and content.
+- `src/app/layout.tsx`: metadata and favicon wiring.
+- `src/app/globals.css`: global styles, cursor rules, and pixelated rendering.
+- `public/`: puppets assets, stickers, favicons, videos.
+
+## Content Context
+
+Bitcoin Puppets is a community-driven, free-and-fair mint Ordinals collection. The broader lore stems from OPIUM (Ord Puppet Inu Undoxxed Millionaire) and a shared ethos of world peace, memes, and experimental art. This site is designed to celebrate the culture rather than sell a roadmap.
