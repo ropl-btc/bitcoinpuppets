@@ -68,6 +68,7 @@ export default function DraggableStickers() {
 	const [stickers, setStickers] = useState<Sticker[]>(initialStickers);
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const stickersRef = useRef<Sticker[]>(initialStickers);
+	const bruhAudioRef = useRef<HTMLAudioElement | null>(null);
 	const dragIndexRef = useRef<number | null>(null);
 	const activeElementRef = useRef<HTMLAnchorElement | null>(null);
 	const offsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -138,6 +139,13 @@ export default function DraggableStickers() {
 	}, [stickers]);
 
 	useEffect(() => {
+		bruhAudioRef.current = new Audio("/sfx/bruh.mp3");
+		return () => {
+			bruhAudioRef.current = null;
+		};
+	}, []);
+
+	useEffect(() => {
 		const updateViewport = () => {
 			viewportWidthRef.current = document.documentElement.clientWidth;
 			const containerLeft = containerRef.current?.getBoundingClientRect().left ?? 0;
@@ -185,10 +193,19 @@ export default function DraggableStickers() {
 		event.currentTarget.setPointerCapture(event.pointerId);
 	};
 
-	const handleClick = (event: React.MouseEvent) => {
+	const handleClick = (event: React.MouseEvent, sticker: Sticker) => {
 		if (movedRef.current) {
 			event.preventDefault();
 			event.stopPropagation();
+			return;
+		}
+
+		if (sticker.id !== "head-12") {
+			const audio = bruhAudioRef.current;
+			if (audio) {
+				audio.currentTime = 0;
+				void audio.play().catch(() => {});
+			}
 		}
 	};
 
@@ -200,7 +217,7 @@ export default function DraggableStickers() {
 					href={sticker.link}
 					target={sticker.link ? "_blank" : undefined}
 					rel={sticker.link ? "noopener noreferrer" : undefined}
-					onClick={handleClick}
+					onClick={(event) => handleClick(event, sticker)}
 					className="sticker pointer-events-auto select-none"
 					style={{
 						"--x": `${sticker.x}px`,
