@@ -25,26 +25,6 @@ Run the site using the Cloudflare runtime to catch Workers-specific issues early
 pnpm preview
 ```
 
-## Deploy (Cloudflare Workers)
-
-```bash
-pnpm deploy
-```
-
-## Project Notes
-
-- Design is intentionally “de-optimized”: bold borders, loud colors, and chaotic layout.
-- Typography favors Comic Sans-style fonts for the full degen vibe.
-- Global rendering disables antialiasing to preserve pixelated assets.
-- Background image is fixed and fills the full viewport.
-
-## Repository Layout
-
-- `src/app/page.tsx`: single-page home layout and content.
-- `src/app/layout.tsx`: metadata and favicon wiring.
-- `src/app/globals.css`: global styles, cursor rules, and pixelated rendering.
-- `public/`: puppets assets, stickers, favicons, videos.
-
 ## Content Context
 
 Bitcoin Puppets is a community-driven, free mint Ordinals collection. The broader lore stems from OPIUM (Ord Puppet Inu Undoxxed Millionaire) and a shared ethos of world peace, memes, and experimental art. This site is designed to celebrate the culture rather than sell a roadmap.
