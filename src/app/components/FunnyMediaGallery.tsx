@@ -33,7 +33,7 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
             onClick={() => setSelectedSrc(src)}
             className="pixel-border bg-white p-2 text-left hover:-translate-y-0.5 hover:shadow-press transition"
           >
-            <div className="relative h-32 w-full">
+            <div className="relative aspect-square w-full">
               <Image
                 src={src}
                 alt="Funny puppet media"
@@ -53,7 +53,7 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
           onClick={() => setSelectedSrc(null)}
         >
           <div
-            className="pixel-border bg-white/95 p-4 text-black max-w-[92vw]"
+            className="pixel-border flex max-h-[90vh] w-full max-w-[92vw] flex-col overflow-y-auto bg-white/95 p-4 text-black"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="window-titlebar mb-3 flex items-center justify-between px-3 py-2 text-sm font-bold uppercase">
@@ -67,7 +67,7 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
               </button>
             </div>
             <div className="pixel-border bg-white p-3">
-              <div className="relative h-[70vh] w-[85vw] max-w-[85vw]">
+              <div className="relative h-[60vh] max-h-[calc(100vh-14rem)] w-full max-w-[85vw] sm:h-[70vh]">
                 <Image
                   src={selectedSrc}
                   alt="Funny puppet media enlarged"

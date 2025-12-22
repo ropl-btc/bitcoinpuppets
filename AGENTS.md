@@ -18,6 +18,7 @@ Bitcoin Puppets is a community-led hub for the Bitcoin Puppets Ordinals collecti
 - `pnpm dev` — Next.js dev server.
 - `pnpm preview` — Local preview using Cloudflare `workerd` (tests OpenNext compatibility).
 - `pnpm deploy` — Build + deploy to Cloudflare.
+- `cloudflared tunnel --url http://localhost:3000` – to test dev on mobile
 
 ## Style Guide
 

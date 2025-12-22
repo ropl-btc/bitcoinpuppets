@@ -18,10 +18,11 @@ const STICKER_MAX_SCALE = 1.1;
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
-const clampStickerX = (x: number, height: number, viewportWidth: number) => {
+const clampStickerX = (x: number, height: number, viewportWidth: number, containerLeft: number) => {
 	const effectiveSize = height * STICKER_MAX_SCALE;
-	const maxX = Math.max(STICKER_MARGIN, viewportWidth - effectiveSize - STICKER_MARGIN);
-	return clamp(x, STICKER_MARGIN, maxX);
+	const minX = STICKER_MARGIN - containerLeft;
+	const maxX = Math.max(minX, viewportWidth - effectiveSize - STICKER_MARGIN - containerLeft);
+	return clamp(x, minX, maxX);
 };
 
 const initialStickers: Sticker[] = [
@@ -65,46 +66,71 @@ const initialStickers: Sticker[] = [
 
 export default function DraggableStickers() {
 	const [stickers, setStickers] = useState<Sticker[]>(initialStickers);
+	const containerRef = useRef<HTMLDivElement | null>(null);
 	const stickersRef = useRef<Sticker[]>(initialStickers);
 	const dragIndexRef = useRef<number | null>(null);
+	const activeElementRef = useRef<HTMLAnchorElement | null>(null);
 	const offsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 	const startPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 	const movedRef = useRef(false);
 	const pendingPosRef = useRef<{ x: number; y: number } | null>(null);
+	const latestPosRef = useRef<{ x: number; y: number } | null>(null);
 	const rafRef = useRef<number | null>(null);
 	const viewportWidthRef = useRef<number>(0);
+	const containerLeftRef = useRef<number>(0);
 
-	const onPointerMove = useCallback((event: PointerEvent) => {
-		const index = dragIndexRef.current;
-		if (index === null) return;
-		const viewportWidth = viewportWidthRef.current || document.documentElement.clientWidth;
-		const sticker = stickersRef.current[index] ?? null;
-		if (!sticker) return;
-		const nextX = clampStickerX(event.pageX - offsetRef.current.x, sticker.height, viewportWidth);
-		const nextY = event.pageY - offsetRef.current.y;
-		if (Math.abs(event.pageX - startPosRef.current.x) > 4 || Math.abs(event.pageY - startPosRef.current.y) > 4) {
-			movedRef.current = true;
-		}
-		pendingPosRef.current = { x: nextX, y: nextY };
-		if (rafRef.current !== null) return;
-		rafRef.current = window.requestAnimationFrame(() => {
-			rafRef.current = null;
-			setStickers((prev) => {
-				const currentIndex = dragIndexRef.current;
-				const pending = pendingPosRef.current;
-				if (currentIndex === null || !pending || !prev[currentIndex]) {
-					return prev;
-				}
-				const next = [...prev];
-				next[currentIndex] = { ...next[currentIndex], x: pending.x, y: pending.y };
-				return next;
-			});
-		});
+	const applyPositionToElement = useCallback((element: HTMLAnchorElement, x: number, y: number) => {
+		element.style.setProperty("--x", `${x}px`);
+		element.style.setProperty("--y", `${y}px`);
 	}, []);
 
+	const onPointerMove = useCallback(
+		(event: PointerEvent) => {
+			const index = dragIndexRef.current;
+			const activeElement = activeElementRef.current;
+			if (index === null || !activeElement) return;
+			const viewportWidth = viewportWidthRef.current || document.documentElement.clientWidth;
+			const containerLeft = containerLeftRef.current;
+			const sticker = stickersRef.current[index] ?? null;
+			if (!sticker) return;
+			const nextX = clampStickerX(
+				event.pageX - containerLeft - offsetRef.current.x,
+				sticker.height,
+				viewportWidth,
+				containerLeft
+			);
+			const nextY = event.pageY - offsetRef.current.y;
+			if (Math.abs(event.pageX - startPosRef.current.x) > 4 || Math.abs(event.pageY - startPosRef.current.y) > 4) {
+				movedRef.current = true;
+			}
+			pendingPosRef.current = { x: nextX, y: nextY };
+			if (rafRef.current !== null) return;
+			rafRef.current = window.requestAnimationFrame(() => {
+				rafRef.current = null;
+				const pending = pendingPosRef.current;
+				if (!pending) return;
+				latestPosRef.current = pending;
+				applyPositionToElement(activeElement, pending.x, pending.y);
+			});
+		},
+		[applyPositionToElement]
+	);
+
 	const onPointerUp = useCallback(() => {
+		const index = dragIndexRef.current;
+		const latest = latestPosRef.current;
+		if (index !== null && latest) {
+			setStickers((prev) => {
+				if (!prev[index]) return prev;
+				const next = [...prev];
+				next[index] = { ...next[index], x: latest.x, y: latest.y };
+				return next;
+			});
+		}
 		dragIndexRef.current = null;
+		activeElementRef.current = null;
 		pendingPosRef.current = null;
+		latestPosRef.current = null;
 	}, []);
 
 	useEffect(() => {
@@ -114,10 +140,12 @@ export default function DraggableStickers() {
 	useEffect(() => {
 		const updateViewport = () => {
 			viewportWidthRef.current = document.documentElement.clientWidth;
+			const containerLeft = containerRef.current?.getBoundingClientRect().left ?? 0;
+			containerLeftRef.current = containerLeft;
 			setStickers((prev) =>
 				prev.map((sticker) => ({
 					...sticker,
-					x: clampStickerX(sticker.x, sticker.height, viewportWidthRef.current),
+					x: clampStickerX(sticker.x, sticker.height, viewportWidthRef.current, containerLeft),
 				}))
 			);
 		};
@@ -125,10 +153,12 @@ export default function DraggableStickers() {
 		window.addEventListener("resize", updateViewport);
 		window.addEventListener("pointermove", onPointerMove);
 		window.addEventListener("pointerup", onPointerUp);
+		window.addEventListener("pointercancel", onPointerUp);
 		return () => {
 			window.removeEventListener("resize", updateViewport);
 			window.removeEventListener("pointermove", onPointerMove);
 			window.removeEventListener("pointerup", onPointerUp);
+			window.removeEventListener("pointercancel", onPointerUp);
 			if (rafRef.current !== null) {
 				window.cancelAnimationFrame(rafRef.current);
 				rafRef.current = null;
@@ -138,14 +168,20 @@ export default function DraggableStickers() {
 
 	const handlePointerDown = (event: React.PointerEvent<HTMLImageElement>, sticker: Sticker) => {
 		event.preventDefault();
-		const index = stickers.findIndex((item) => item.id === sticker.id);
+		const element = event.currentTarget.closest("a");
+		if (!(element instanceof HTMLAnchorElement)) return;
+		const index = stickersRef.current.findIndex((item) => item.id === sticker.id);
 		dragIndexRef.current = index >= 0 ? index : null;
+		activeElementRef.current = element;
 		movedRef.current = false;
 		startPosRef.current = { x: event.pageX, y: event.pageY };
+		const currentSticker = stickersRef.current[index] ?? sticker;
+		const containerLeft = containerLeftRef.current;
 		offsetRef.current = {
-			x: event.pageX - sticker.x,
-			y: event.pageY - sticker.y,
+			x: event.pageX - containerLeft - currentSticker.x,
+			y: event.pageY - currentSticker.y,
 		};
+		latestPosRef.current = { x: currentSticker.x, y: currentSticker.y };
 		event.currentTarget.setPointerCapture(event.pointerId);
 	};
 
@@ -157,7 +193,7 @@ export default function DraggableStickers() {
 	};
 
 	return (
-		<div className="absolute inset-0 pointer-events-none">
+		<div ref={containerRef} className="absolute inset-0 pointer-events-none">
 			{stickers.map((sticker) => (
 				<a
 					key={sticker.id}

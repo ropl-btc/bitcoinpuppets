@@ -62,13 +62,14 @@ canvas {
 	width: var(--size, auto);
 	height: var(--size, auto);
 	line-height: 0;
-	transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0)) scale(var(--scale, 1));
+	transform: translate3d(var(--x, 0), var(--y, 0), 0) rotate(var(--r, 0)) scale(var(--scale, 1));
 	transform-origin: center;
 	transition: transform 120ms ease;
 	cursor: grab;
-	z-index: 50;
+	z-index: 70;
 	touch-action: none;
 	overflow: visible;
+	will-change: transform;
 }
 
 .sticker:hover {

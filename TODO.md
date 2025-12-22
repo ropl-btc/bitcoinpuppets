@@ -1,4 +1,5 @@
-- gallery view hooked up to magic eden (similar to our "Funny Pictures and Videos" in design but hooked up to magic eden api and with toggles for sort by and filters and stuff, just like in magic eden) -- one view for opium and one for bitcoin puppets with a switcher at the top to switch from opium to bitcoin puppets
+# features:
+
 - display active puppets loans from liquidium somewhere
 - diplay magic eden last sales somewhere
 - place stickers a bit better by default
@@ -8,4 +9,7 @@
 - more easter eggs
 - icons to quick links
 - marketplaces as dropdown in quick links
-- optimize for mobile: stickers currently placed too far right on mobile which leads to horizontal scrolling.
+
+# bugs:
+
+- expandable field showing emoji instead of arrow symbol on mobile

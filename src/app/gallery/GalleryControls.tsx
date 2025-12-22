@@ -1,0 +1,136 @@
+"use client";
+
+import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useState, useTransition } from "react";
+import { MAGIC_EDEN_SORT_OPTIONS, type MagicEdenSort } from "@/lib/magicEden";
+
+const COLLECTIONS = [
+  { value: "bitcoin-puppets", label: "Bitcoin Puppets" },
+  { value: "opium", label: "OPIUM" },
+] as const;
+
+type GalleryControlsProps = {
+  collection: string;
+  sortBy: MagicEdenSort;
+  listedOnly: boolean;
+  query?: string;
+};
+
+export default function GalleryControls({
+  collection,
+  sortBy,
+  listedOnly,
+  query,
+}: GalleryControlsProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [pending, startTransition] = useTransition();
+  const [searchInput, setSearchInput] = useState(query ?? "");
+
+  const currentParams = useMemo(
+    () => new URLSearchParams(searchParams.toString()),
+    [searchParams]
+  );
+
+  const updateParams = (updates: Record<string, string | undefined>) => {
+    const params = new URLSearchParams(currentParams.toString());
+    Object.entries(updates).forEach(([key, value]) => {
+      if (!value) {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
+    params.delete("page");
+    startTransition(() => {
+      router.replace(`/gallery?${params.toString()}`);
+    });
+  };
+
+  return (
+    <div className="pixel-border bg-white/95 p-4 text-black">
+      <div className="window-titlebar mb-4 flex flex-wrap items-center justify-between gap-3 px-3 py-2 text-sm font-bold uppercase">
+        <span>Gallery Controls</span>
+        {pending ? <span className="text-xs">Loading...</span> : null}
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {COLLECTIONS.map((item) => {
+          const active = item.value === collection;
+          return (
+            <button
+              key={item.value}
+              type="button"
+              onClick={() => updateParams({ collection: item.value })}
+              className={`pixel-border px-3 py-2 text-xs font-bold uppercase transition hover:-translate-y-0.5 hover:shadow-press ${
+                active
+                  ? "bg-puppet-pink text-black"
+                  : "bg-white text-black"
+              }`}
+            >
+              {item.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 grid gap-4 md:grid-cols-[1.3fr_1fr_1fr]">
+        <label className="flex flex-col gap-2 text-xs font-bold uppercase">
+          Sort by
+          <select
+            value={sortBy}
+            onChange={(event) =>
+              updateParams({ sortBy: event.target.value as MagicEdenSort })
+            }
+            className="pixel-border bg-white px-3 py-2 text-sm font-bold"
+          >
+            {MAGIC_EDEN_SORT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex items-center gap-2 text-xs font-bold uppercase">
+          <input
+            type="checkbox"
+            checked={listedOnly}
+            onChange={(event) =>
+              updateParams({ listed: event.target.checked ? "true" : undefined })
+            }
+            className="h-4 w-4"
+          />
+          Listed only
+        </label>
+
+        <form
+          className="flex flex-col gap-2"
+          onSubmit={(event) => {
+            event.preventDefault();
+            updateParams({ q: searchInput.trim() || undefined });
+          }}
+        >
+          <label className="text-xs font-bold uppercase">
+            Search (token, inscription, name)
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.target.value)}
+              className="pixel-border w-full bg-white px-3 py-2 text-sm"
+              placeholder="Bitcoin Puppet #1231"
+            />
+            <button
+              type="submit"
+              className="pixel-border bg-puppet-green px-3 py-2 text-xs font-bold uppercase text-black hover:-translate-y-0.5 hover:shadow-press transition"
+            >
+              Apply
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

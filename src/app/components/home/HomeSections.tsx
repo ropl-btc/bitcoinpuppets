@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { cursedInscriptions, faq, funnyMedia, links } from "../../content";
 import FunnyMediaGallery from "../FunnyMediaGallery";
 
@@ -45,6 +46,12 @@ export function HeroSection() {
           >
             World Peace 🌎☮️
           </a>
+          <Link
+            href="/gallery"
+            className="pixel-border bg-puppet-blue px-3 py-2 text-sm font-bold uppercase inline-block hover:-translate-y-0.5 hover:shadow-press transition"
+          >
+            Gallery
+          </Link>
         </div>
       </div>
 
@@ -53,16 +60,23 @@ export function HeroSection() {
           <span className="text-sm font-bold uppercase">Bulla.gif</span>
         </div>
         <div className="bg-white p-3">
-          <Image
-            src="/bulla.gif"
-            alt="Bitcoin Puppets bulla preview"
-            width={640}
-            height={640}
-            priority
-            sizes="(max-width: 768px) 100vw, 52vw"
-            className="h-auto w-full border-4 border-black"
-            unoptimized
-          />
+          <a
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block"
+          >
+            <Image
+              src="/bulla.gif"
+              alt="Bitcoin Puppets bulla preview"
+              width={640}
+              height={640}
+              priority
+              sizes="(max-width: 768px) 100vw, 52vw"
+              className="h-auto w-full border-4 border-black"
+              unoptimized
+            />
+          </a>
         </div>
       </div>
     </section>
@@ -83,9 +97,9 @@ export function ManifestoSection() {
         </div>
         <p className="text-base leading-relaxed">
           Bitcoin Puppets is a 10,001-piece Ordinals collection and a
-          community-led collective built on chaotic joy, freedom of
-          imagination, and the belief that the internet should be weird again.
-          Show up, post memes, say bj, and push world peace in every thread.
+          community-led collective built on chaotic joy, freedom of imagination,
+          and the belief that the internet should be weird again. Show up, post
+          memes, say bj, and push world peace in every thread.
         </p>
       </section>
     </a>
@@ -245,8 +259,8 @@ export function FunnyMediaSection() {
         Funny Pictures and Videos
       </div>
       <p className="text-sm font-bold uppercase">
-        PUPPETIZE YOUR LIFE TODAY!!!!! PUPPETIZE YOUR LIFE TODAY!!!!!
-        PUPPETIZE YOUR LIFE TODAY!!!!! PUPPETIZE YOUR LIFE TODAY!!!!!
+        PUPPETIZE YOUR LIFE TODAY!!!!! PUPPETIZE YOUR LIFE TODAY!!!!! PUPPETIZE
+        YOUR LIFE TODAY!!!!! PUPPETIZE YOUR LIFE TODAY!!!!!
       </p>
       <FunnyMediaGallery sources={funnyMedia} />
     </section>
@@ -285,14 +299,14 @@ export function NoCollabSection() {
       <div className="pixel-border bg-white px-4 py-3 text-sm leading-relaxed">
         <p>
           Art in its purest form is a manifestation of individuality. The
-          no-collab thesis asserts that the very essence of Bitcoin Puppets&apos;
-          unique vision and narrative is the expression of a single artist.
-          Artistic expression flourishes unbridled by compromise or dilution.
-          Collaborations in the ordinals/NFT ecosystem often devolve into
-          attention-grabbing spectacles, where the collective effort overshadows
-          the intrinsic value. The no-collab thesis liberates the project from
-          the pressure to conform to trends or compromise on integrity for the
-          sake of visibility.
+          no-collab thesis asserts that the very essence of Bitcoin
+          Puppets&apos; unique vision and narrative is the expression of a
+          single artist. Artistic expression flourishes unbridled by compromise
+          or dilution. Collaborations in the ordinals/NFT ecosystem often
+          devolve into attention-grabbing spectacles, where the collective
+          effort overshadows the intrinsic value. The no-collab thesis liberates
+          the project from the pressure to conform to trends or compromise on
+          integrity for the sake of visibility.
         </p>
         <p className="mt-3">
           The allure of collaboration often masks a perilous reality (despite
@@ -452,9 +466,7 @@ export function LoreSection() {
           </div>
 
           <div className="grid gap-2">
-            <h3 className="text-sm font-bold uppercase">
-              Manifesto & Mission
-            </h3>
+            <h3 className="text-sm font-bold uppercase">Manifesto & Mission</h3>
             <ul className="list-disc pl-5">
               <li>Culture &gt; companies. Memes &gt; roadmaps.</li>
               <li>No-collab thesis. Organic growth only.</li>
@@ -515,9 +527,7 @@ export function LoreSection() {
           </div>
 
           <div className="grid gap-2">
-            <h3 className="text-sm font-bold uppercase">
-              Recent Developments
-            </h3>
+            <h3 className="text-sm font-bold uppercase">Recent Developments</h3>
             <p>
               In December 2025, Le Puppeteer Fou deleted socials, echoing the
               Satoshi mythos. The community rallied, reinforcing the core
@@ -534,7 +544,7 @@ export function SiteFooter() {
   return (
     <footer className="mx-auto mt-16 flex w-full max-w-6xl flex-col gap-4 px-4 text-sm sm:px-6">
       <div className="pixel-border window-titlebar px-4 py-3 text-white">
-        Website created by Robin, CEO of Liquidium (
+        Website created with 🌍☮️ by Robin, CEO of Liquidium (
         <a
           href="https://x.com/robin_liquidium"
           target="_blank"
@@ -544,6 +554,44 @@ export function SiteFooter() {
           @robin_liquidium
         </a>
         )
+      </div>
+      <div className="pixel-border bg-white/90 px-4 py-3 text-xs font-bold uppercase text-black">
+        <span className="mr-2">Links:</span>
+        <a
+          href="https://x.com/BitcoinPuppets"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          X
+        </a>
+        <span className="mx-2">•</span>
+        <a
+          href="https://t.me/worldpeacegospel"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          Telegram
+        </a>
+        <span className="mx-2">•</span>
+        <a
+          href="https://magiceden.io/ordinals/marketplace/bitcoin-puppets"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          Magic Eden
+        </a>
+        <span className="mx-2">•</span>
+        <a
+          href="https://discord.gg/bitcoinpuppets"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          Discord
+        </a>
       </div>
       <div className="text-xs text-black/70">
         This is a community-led hub. Not financial advice. Just vibes.
