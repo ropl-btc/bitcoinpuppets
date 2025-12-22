@@ -30,14 +30,22 @@ body {
 	background: var(--background);
 	color: var(--foreground);
 	font-family: var(--font-comic);
+	position: relative;
+	z-index: 0;
+	-webkit-font-smoothing: none;
+	-moz-osx-font-smoothing: auto;
+	text-rendering: optimizeSpeed;
+}
+
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
 	background-image: url("/puppets_background.avif");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-attachment: fixed;
-	-webkit-font-smoothing: none;
-	-moz-osx-font-smoothing: auto;
-	text-rendering: optimizeSpeed;
+	z-index: -1;
 }
 
 img,
@@ -50,6 +58,10 @@ canvas {
 	position: absolute;
 	left: 0;
 	top: 0;
+	display: block;
+	width: var(--size, auto);
+	height: var(--size, auto);
+	line-height: 0;
 	transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0)) scale(var(--scale, 1));
 	transform-origin: center;
 	transition: transform 120ms ease;
@@ -71,6 +83,7 @@ canvas {
 html,
 body {
 	cursor: url("/sym46.avif") 0 0, crosshair !important;
+	min-height: 100%;
 }
 
 *,

@@ -170,7 +170,7 @@ export default function DraggableStickers() {
 						"--x": `${sticker.x}px`,
 						"--y": `${sticker.y}px`,
 						"--r": `${sticker.rotate}deg`,
-						height: `${sticker.height}px`,
+						"--size": `${sticker.height}px`,
 					} as React.CSSProperties}
 				>
 					<Image
