@@ -25,8 +25,8 @@ importers:
         specifier: ^3
         version: 3.3.3
       '@secretlint/secretlint-rule-preset-recommend':
-        specifier: ^9.3.4
-        version: 9.3.4
+        specifier: ^11.2.5
+        version: 11.2.5
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.18
@@ -1290,9 +1290,9 @@ packages:
   '@secretlint/resolver@9.3.4':
     resolution: {integrity: sha512-L1lIrcjzqcspPzZttmOvMmOFDpJTYFyRBONg94TZBWrpv4x0w5G2SYR+K7EE1SbYQAiPxw1amoXT1YRP8cZF2A==}
 
-  '@secretlint/secretlint-rule-preset-recommend@9.3.4':
-    resolution: {integrity: sha512-RvzrLNN2A0B2bYQgRSRjh2dkdaIDuhXjj4SO5bElK1iBtJNiD6VBTxSSY1P3hXYaBeva7MEF+q1PZ3cCL8XYOA==}
-    engines: {node: ^14.13.1 || >=16.0.0}
+  '@secretlint/secretlint-rule-preset-recommend@11.2.5':
+    resolution: {integrity: sha512-FAnp/dPdbvHEw50aF9JMPF/OwW58ULvVXEsk+mXTtBD09VJZhG0vFum8WzxMbB98Eo4xDddGzYtE3g27pBOaQA==}
+    engines: {node: '>=20.0.0'}
 
   '@secretlint/source-creator@9.3.4':
     resolution: {integrity: sha512-I9ZA1gm9HJNaAhZiQdInY9VM04VTAGDV4bappVbEJzMUDnK/LTbYqfQ88RPqgCGCqa6ee8c0/j5Bn7ypweouIw==}
@@ -5836,7 +5836,7 @@ snapshots:
 
   '@secretlint/resolver@9.3.4': {}
 
-  '@secretlint/secretlint-rule-preset-recommend@9.3.4': {}
+  '@secretlint/secretlint-rule-preset-recommend@11.2.5': {}
 
   '@secretlint/source-creator@9.3.4':
     dependencies:
