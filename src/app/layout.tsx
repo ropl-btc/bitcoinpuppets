@@ -4,22 +4,29 @@ import "./globals.css";
 const siteTitle = "Bitcoin Puppets — Community Hub";
 const siteDescription =
   "A community-led hub for the Bitcoin Puppets Ordinals collection. Good vibes, world peace, and pure chaos.";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://bitcoinpuppets.community";
 const socialImage = "/social_preview.png";
 
 export const metadata: Metadata = {
-  title: siteTitle,
+  title: {
+    default: siteTitle,
+    template: "%s — Bitcoin Puppets",
+  },
   description: siteDescription,
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
-  ),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: siteTitle,
     description: siteDescription,
+    url: "/",
+    siteName: "Bitcoin Puppets",
+    locale: "en_US",
+    type: "website",
     images: [
       {
         url: socialImage,
-        width: 2752,
-        height: 1536,
+        width: 1200,
+        height: 630,
         alt: siteTitle,
       },
     ],
@@ -29,6 +36,10 @@ export const metadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
     images: [socialImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

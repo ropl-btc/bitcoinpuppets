@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import DraggableStickers from "./components/DraggableStickers";
 import {
@@ -13,6 +14,15 @@ import {
   SiteFooter,
   VideosSection,
 } from "./components/home/HomeSections";
+
+export const metadata: Metadata = {
+  title: "Community Hub",
+  description:
+    "A community-led hub for the Bitcoin Puppets Ordinals collection. Good vibes, world peace, and pure chaos.",
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function Home() {
   return (

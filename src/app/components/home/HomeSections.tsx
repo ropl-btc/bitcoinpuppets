@@ -118,7 +118,7 @@ export function VideosSection() {
           src="/videos/opiumorigins.mp4"
           controls
           playsInline
-          preload="auto"
+          preload="metadata"
         />
       </div>
       <div className="pixel-border bg-white/90 p-4 text-black">
@@ -130,7 +130,7 @@ export function VideosSection() {
           src="/videos/interview.mp4"
           controls
           playsInline
-          preload="auto"
+          preload="metadata"
         />
       </div>
     </section>
@@ -591,6 +591,15 @@ export function SiteFooter() {
           className="underline"
         >
           Discord
+        </a>
+        <span className="mx-2">•</span>
+        <a
+          href="https://github.com/ropl-btc/bitcoinpuppets"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          GitHub
         </a>
       </div>
       <div className="text-xs text-black/70">

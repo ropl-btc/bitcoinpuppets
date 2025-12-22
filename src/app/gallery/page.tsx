@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import GalleryControls from "./GalleryControls";
 import GalleryGrid from "./GalleryGrid";
@@ -22,11 +23,17 @@ const COLLECTION_TOTALS: Record<string, number> = {
 	"bitcoin-puppets": 10001,
 	opium: 777,
 };
+const SOCIAL_IMAGE = "/social_preview.png";
+const SITE_NAME = "Bitcoin Puppets";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
 type GalleryPageProps = {
   searchParams?: Promise<SearchParams>;
+};
+
+type GalleryMetadataProps = {
+	searchParams?: Promise<SearchParams>;
 };
 
 function getParam(searchParams: SearchParams | undefined, key: string) {
@@ -318,4 +325,67 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
 	</main>
     </div>
   );
+}
+
+export async function generateMetadata({
+	searchParams,
+}: GalleryMetadataProps): Promise<Metadata> {
+	const resolvedSearchParams = searchParams ? await searchParams : undefined;
+	const collection = resolveCollection(
+		getParam(resolvedSearchParams, "collection")
+	);
+	const sortByParam = getParam(resolvedSearchParams, "sortBy");
+	const sortBy = isMagicEdenSort(sortByParam) ? sortByParam : DEFAULT_SORT;
+	const listedOnly = getParam(resolvedSearchParams, "listed") === "true";
+	const query = getParam(resolvedSearchParams, "q")?.trim() ?? "";
+	const activeCollection = COLLECTIONS.find(
+		(item) => item.symbol === collection
+	);
+	const title = `${activeCollection?.label ?? "Gallery"} Gallery`;
+	const description =
+		"Browse live Bitcoin Puppets and OPIUM ordinals pulled from Magic Eden. Filter, sort, and inspect each puppet up close.";
+	const hasFilters =
+		collection !== DEFAULT_COLLECTION ||
+		sortBy !== DEFAULT_SORT ||
+		listedOnly ||
+		Boolean(query);
+
+	return {
+		title,
+		description,
+		alternates: {
+			canonical: "/gallery",
+		},
+		openGraph: {
+			title,
+			description,
+			url: "/gallery",
+			siteName: SITE_NAME,
+			locale: "en_US",
+			type: "website",
+			images: [
+				{
+					url: SOCIAL_IMAGE,
+					width: 1200,
+					height: 630,
+					alt: title,
+				},
+			],
+		},
+		twitter: {
+			card: "summary_large_image",
+			title,
+			description,
+			images: [SOCIAL_IMAGE],
+		},
+		robots: hasFilters
+			? {
+					index: false,
+					follow: true,
+				}
+			: {
+					index: true,
+					follow: true,
+				},
+	};
 }
