@@ -70,7 +70,7 @@ canvas {
 
 html,
 body {
-	cursor: url("/sym46.png") 0 0, crosshair !important;
+	cursor: url("/sym46.avif") 0 0, crosshair !important;
 }
 
 *,
@@ -79,7 +79,7 @@ body {
 a,
 button,
 summary {
-	cursor: url("/sym46.png") 0 0, crosshair !important;
+	cursor: url("/sym46.avif") 0 0, crosshair !important;
 }
 
 ::selection {

@@ -241,7 +241,7 @@ export default function Home() {
 
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 pt-10 sm:px-6 relative">
         <Image
-          src="/smile.png"
+          src="/smile.avif"
           alt="Bitcoin Puppets favicon"
           width={96}
           height={96}

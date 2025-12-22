@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type Sticker = {
@@ -13,42 +14,42 @@ type Sticker = {
 };
 
 const initialStickers: Sticker[] = [
-	{ id: "head-2", src: "/puppets_heads/head-2.png", x: 40, y: 220, rotate: -10, height: 96 },
-	{ id: "head-5", src: "/puppets_heads/head-5.png", x: 760, y: 280, rotate: 12, height: 112 },
-	{ id: "head-7", src: "/puppets_heads/head-7.png", x: 20, y: 640, rotate: 10, height: 96 },
-	{ id: "head-9", src: "/puppets_heads/head-9.png", x: 820, y: 860, rotate: 9, height: 110 },
+	{ id: "head-2", src: "/puppets_heads/head-2.avif", x: 40, y: 220, rotate: -10, height: 96 },
+	{ id: "head-5", src: "/puppets_heads/head-5.avif", x: 760, y: 280, rotate: 12, height: 112 },
+	{ id: "head-7", src: "/puppets_heads/head-7.avif", x: 20, y: 640, rotate: 10, height: 96 },
+	{ id: "head-9", src: "/puppets_heads/head-9.avif", x: 820, y: 860, rotate: 9, height: 110 },
 	{
 		id: "head-12",
-		src: "/puppets_heads/head-12.png",
+		src: "/puppets_heads/head-12.avif",
 		x: 760,
 		y: 520,
 		rotate: 14,
 		height: 104,
 		link: "https://youtu.be/xvFZjo5PgG0?si=5lTg3z5hLa3r8n3k",
 	},
-	{ id: "head-15", src: "/puppets_heads/head-15.png", x: 820, y: 1160, rotate: 6, height: 96 },
-	{ id: "head-18", src: "/puppets_heads/head-18.png", x: 60, y: 1440, rotate: -10, height: 108 },
-	{ id: "head-11", src: "/puppets_heads/head-11.png", x: 360, y: 320, rotate: -8, height: 120 },
-	{ id: "head-4", src: "/puppets_heads/head-4.png", x: 120, y: 980, rotate: -12, height: 88 },
-	{ id: "head-6", src: "/puppets_heads/head-6.png", x: 40, y: 1780, rotate: 8, height: 96 },
-	{ id: "head-3", src: "/puppets_heads/head-3.png", x: 860, y: 2000, rotate: 12, height: 96 },
-	{ id: "head-13", src: "/puppets_heads/head-13.png", x: 80, y: 2280, rotate: -8, height: 96 },
-	{ id: "head-8", src: "/puppets_heads/head-8.png", x: 840, y: 2580, rotate: 10, height: 96 },
-	{ id: "head-16", src: "/puppets_heads/head-16.png", x: 40, y: 3000, rotate: 6, height: 112 },
+	{ id: "head-15", src: "/puppets_heads/head-15.avif", x: 820, y: 1160, rotate: 6, height: 96 },
+	{ id: "head-18", src: "/puppets_heads/head-18.avif", x: 60, y: 1440, rotate: -10, height: 108 },
+	{ id: "head-11", src: "/puppets_heads/head-11.avif", x: 360, y: 320, rotate: -8, height: 120 },
+	{ id: "head-4", src: "/puppets_heads/head-4.avif", x: 120, y: 980, rotate: -12, height: 88 },
+	{ id: "head-6", src: "/puppets_heads/head-6.avif", x: 40, y: 1780, rotate: 8, height: 96 },
+	{ id: "head-3", src: "/puppets_heads/head-3.avif", x: 860, y: 2000, rotate: 12, height: 96 },
+	{ id: "head-13", src: "/puppets_heads/head-13.avif", x: 80, y: 2280, rotate: -8, height: 96 },
+	{ id: "head-8", src: "/puppets_heads/head-8.avif", x: 840, y: 2580, rotate: 10, height: 96 },
+	{ id: "head-16", src: "/puppets_heads/head-16.avif", x: 40, y: 3000, rotate: 6, height: 112 },
 	{
 		id: "head-10",
-		src: "/puppets_heads/head-10.png",
+		src: "/puppets_heads/head-10.avif",
 		x: 780,
 		y: 2600,
 		rotate: -12,
 		height: 110,
 	},
-	{ id: "head-14", src: "/puppets_heads/head-14.png", x: 120, y: 3520, rotate: 8, height: 100 },
-	{ id: "head-17", src: "/puppets_heads/head-17.png", x: 820, y: 3780, rotate: 14, height: 108 },
-	{ id: "head-1", src: "/puppets_heads/head-1.png", x: 60, y: 4020, rotate: -6, height: 112 },
-	{ id: "head-3c", src: "/puppets_heads/head-3.png", x: 760, y: 4260, rotate: 9, height: 104 },
-	{ id: "head-6c", src: "/puppets_heads/head-6.png", x: 140, y: 4520, rotate: 12, height: 100 },
-	{ id: "head-9b", src: "/puppets_heads/head-9.png", x: 820, y: 4800, rotate: -10, height: 110 },
+	{ id: "head-14", src: "/puppets_heads/head-14.avif", x: 120, y: 3520, rotate: 8, height: 100 },
+	{ id: "head-17", src: "/puppets_heads/head-17.avif", x: 820, y: 3780, rotate: 14, height: 108 },
+	{ id: "head-1", src: "/puppets_heads/head-1.avif", x: 60, y: 4020, rotate: -6, height: 112 },
+	{ id: "head-3c", src: "/puppets_heads/head-3.avif", x: 760, y: 4260, rotate: 9, height: 104 },
+	{ id: "head-6c", src: "/puppets_heads/head-6.avif", x: 140, y: 4520, rotate: 12, height: 100 },
+	{ id: "head-9b", src: "/puppets_heads/head-9.avif", x: 820, y: 4800, rotate: -10, height: 110 },
 ];
 
 export default function DraggableStickers() {
@@ -129,11 +130,14 @@ export default function DraggableStickers() {
 						height: `${sticker.height}px`,
 					} as React.CSSProperties}
 				>
-					<img
+					<Image
 						src={sticker.src}
 						alt=""
+						width={sticker.height}
+						height={sticker.height}
+						sizes={`${sticker.height}px`}
 						onPointerDown={(event) => handlePointerDown(event, sticker)}
-						className="block h-full w-auto"
+						className="block h-full w-full object-contain"
 						draggable={false}
 					/>
 				</a>
