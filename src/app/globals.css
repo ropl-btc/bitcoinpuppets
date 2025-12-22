@@ -116,3 +116,31 @@ summary {
 		transform: translateX(-100%);
 	}
 }
+
+.rainbow-text {
+	background-image: repeating-linear-gradient(
+		90deg,
+		#ff004c 0%,
+		#ff7a00 14%,
+		#ffe600 28%,
+		#3dff7a 42%,
+		#00d1ff 57%,
+		#7a5cff 71%,
+		#ff00c8 85%,
+		#ff004c 100%
+	);
+	background-size: 200% 100%;
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	animation: rainbow-shift 3s linear infinite;
+}
+
+@keyframes rainbow-shift {
+	0% {
+		background-position: 0% 50%;
+	}
+	100% {
+		background-position: 200% 50%;
+	}
+}

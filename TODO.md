@@ -1,1 +1,10 @@
-- gallery view hooked up to magic eden
+- gallery view hooked up to magic eden (similar to our "Funny Pictures and Videos" in design but hooked up to magic eden api and with toggles for sort by and filters and stuff, just like in magic eden) -- one view for opium and one for bitcoin puppets with a switcher at the top to switch from opium to bitcoin puppets
+- display active puppets loans from liquidium somewhere
+- diplay magic eden last sales somewhere
+- place stickers a bit better by default
+- navbar with quick links?
+- links to opium
+- confetti to stickers
+- more easter eggs
+- icons to quick links
+- marketplaces as dropdown in quick links

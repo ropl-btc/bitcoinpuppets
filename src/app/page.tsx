@@ -1,5 +1,6 @@
 import Image from "next/image";
 import DraggableStickers from "./components/DraggableStickers";
+import FunnyMediaGallery from "./components/FunnyMediaGallery";
 
 const links = [
   {
@@ -46,6 +47,11 @@ const links = [
     label: "Memes (memedepot)",
     href: "https://memedepot.com/d/btcpuppets",
     note: "Community meme vault.",
+  },
+  {
+    label: "Liquidium.WTF (Puppet Loans)",
+    href: "https://app.liquidium.wtf/ordinals/bitcoin-puppets",
+    note: "Loans against Bitcoin Puppets.",
   },
 ];
 
@@ -249,7 +255,8 @@ export default function Home() {
               </span>
             </div>
             <h1 className="text-3xl font-black uppercase tracking-tight md:text-5xl">
-              bj from the puppetverse
+              <span className="rainbow-text inline-block">BJ</span> from the
+              puppetverse
             </h1>
             <p className="mt-4 text-lg leading-relaxed">
               When you engage with the Puppets, leave behind the shackles of
@@ -331,10 +338,11 @@ export default function Home() {
               Opium Origins.mp4
             </div>
             <video
-              className="pixel-border w-full bg-black"
-              src="/opiumorigins.mp4"
+              className="pixel-border w-full bg-black relative z-[60]"
+              src="/videos/opiumorigins.mp4"
               controls
-              preload="metadata"
+              playsInline
+              preload="auto"
             />
           </div>
           <div className="pixel-border bg-white/90 p-4 text-black">
@@ -342,10 +350,11 @@ export default function Home() {
               Puppet Interview.mp4
             </div>
             <video
-              className="pixel-border w-full bg-black"
-              src="/interview.mp4"
+              className="pixel-border w-full bg-black relative z-[60]"
+              src="/videos/interview.mp4"
               controls
-              preload="metadata"
+              playsInline
+              preload="auto"
             />
           </div>
         </section>
@@ -463,19 +472,7 @@ export default function Home() {
             PUPPETIZE YOUR LIFE TODAY!!!!! PUPPETIZE YOUR LIFE TODAY!!!!!
             PUPPETIZE YOUR LIFE TODAY!!!!! PUPPETIZE YOUR LIFE TODAY!!!!!
           </p>
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {funnyMedia.map((src) => (
-              <div key={src} className="pixel-border bg-white p-2">
-                <img
-                  src={src}
-                  alt="Funny puppet media"
-                  loading="lazy"
-                  decoding="async"
-                  className="h-32 w-full object-contain"
-                />
-              </div>
-            ))}
-          </div>
+          <FunnyMediaGallery sources={funnyMedia} />
         </section>
 
         <section className="pixel-border bg-white/95 p-6 text-black">
@@ -507,14 +504,15 @@ export default function Home() {
           <div className="pixel-border bg-white px-4 py-3 text-sm leading-relaxed">
             <p>
               Art in its purest form is a manifestation of individuality. The
-              no-collab thesis asserts that the very essence of Bitcoin Puppets&apos;
-              unique vision and narrative is the expression of a single artist.
-              Artistic expression flourishes unbridled by compromise or
-              dilution. Collaborations in the ordinals/NFT ecosystem often
-              devolve into attention-grabbing spectacles, where the collective
-              effort overshadows the intrinsic value. The no-collab thesis
-              liberates the project from the pressure to conform to trends or
-              compromise on integrity for the sake of visibility.
+              no-collab thesis asserts that the very essence of Bitcoin
+              Puppets&apos; unique vision and narrative is the expression of a
+              single artist. Artistic expression flourishes unbridled by
+              compromise or dilution. Collaborations in the ordinals/NFT
+              ecosystem often devolve into attention-grabbing spectacles, where
+              the collective effort overshadows the intrinsic value. The
+              no-collab thesis liberates the project from the pressure to
+              conform to trends or compromise on integrity for the sake of
+              visibility.
             </p>
             <p className="mt-3">
               The allure of collaboration often masks a perilous reality
@@ -726,7 +724,7 @@ export default function Home() {
       </main>
 
       <footer className="mx-auto mt-16 flex w-full max-w-6xl flex-col gap-4 px-4 text-sm sm:px-6">
-        <div className="pixel-border bg-puppet-blue px-4 py-3 text-white">
+        <div className="pixel-border window-titlebar px-4 py-3 text-white">
           Created by Robin, CEO of Liquidium (
           <a
             href="https://x.com/robin_liquidium"
