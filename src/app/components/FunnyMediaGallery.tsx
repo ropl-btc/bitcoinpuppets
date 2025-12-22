@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 type FunnyMediaGalleryProps = {
@@ -32,13 +33,16 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
             onClick={() => setSelectedSrc(src)}
             className="pixel-border bg-white p-2 text-left hover:-translate-y-0.5 hover:shadow-press transition"
           >
-            <img
-              src={src}
-              alt="Funny puppet media"
-              loading="lazy"
-              decoding="async"
-              className="h-32 w-full object-contain"
-            />
+            <div className="relative h-32 w-full">
+              <Image
+                src={src}
+                alt="Funny puppet media"
+                fill
+                sizes="(min-width: 1024px) 200px, (min-width: 640px) 160px, 120px"
+                className="object-contain"
+                unoptimized
+              />
+            </div>
           </button>
         ))}
       </div>
@@ -63,11 +67,16 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
               </button>
             </div>
             <div className="pixel-border bg-white p-3">
-              <img
-                src={selectedSrc}
-                alt="Funny puppet media enlarged"
-                className="max-h-[70vh] w-auto max-w-[85vw] object-contain"
-              />
+              <div className="relative h-[70vh] w-[85vw] max-w-[85vw]">
+                <Image
+                  src={selectedSrc}
+                  alt="Funny puppet media enlarged"
+                  fill
+                  sizes="85vw"
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
             </div>
           </div>
         </div>
