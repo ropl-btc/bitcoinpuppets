@@ -47,4 +47,4 @@ pnpm deploy
 
 ## Content Context
 
-Bitcoin Puppets is a community-driven, free-and-fair mint Ordinals collection. The broader lore stems from OPIUM (Ord Puppet Inu Undoxxed Millionaire) and a shared ethos of world peace, memes, and experimental art. This site is designed to celebrate the culture rather than sell a roadmap.
+Bitcoin Puppets is a community-driven, free mint Ordinals collection. The broader lore stems from OPIUM (Ord Puppet Inu Undoxxed Millionaire) and a shared ethos of world peace, memes, and experimental art. This site is designed to celebrate the culture rather than sell a roadmap.

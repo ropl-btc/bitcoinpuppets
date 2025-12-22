@@ -77,9 +77,8 @@ const faq = [
       "The collections were created by the pseudonymous artist Le Puppeteer Fou, who stays undoxxed by design.",
   },
   {
-    question: "Was the mint fair?",
-    answer:
-      "Yes. The Puppets were a free and fair mint. Community first, always.",
+    question: "Was the mint free?",
+    answer: "Yes. The Puppets were a free mint. Community first, always.",
   },
   {
     question: "What’s the vibe?",
@@ -242,7 +241,7 @@ export default function Home() {
 
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 pt-10 sm:px-6 relative">
         <Image
-          src="/favicon.png"
+          src="/smile.png"
           alt="Bitcoin Puppets favicon"
           width={96}
           height={96}
@@ -397,7 +396,7 @@ export default function Home() {
                 Post art, memes, and offbeat ideas.
               </li>
               <li className="pixel-border bg-white/90 px-4 py-3 text-black">
-                Protect the free + fair culture.
+                Protect the free culture. Send it to zero.
               </li>
               <li className="pixel-border bg-white/90 px-4 py-3 text-black">
                 World peace above all.
@@ -553,8 +552,10 @@ export default function Home() {
                 resonant, and unapologetically absurd experiments in the
                 Ordinals ecosystem—a collection of 10,001 hand-drawn profile
                 pictures (PFPs) inscribed eternally on the Bitcoin blockchain.
-                Born from the fringes of digital art and counterculture, it
-                expands on its predecessor, O.P.I.U.M. (Ord Puppet Inu Undoxxed
+                The Ordinals protocol, introduced by Casey Rodarmor in early
+                2023, made these “digital artifacts” possible on Bitcoin. Born
+                from the fringes of digital art and counterculture, it expands
+                on its predecessor, O.P.I.U.M. (Ord Puppet Inu Undoxxed
                 Millionaire), a 777-piece series of esoteric hand puppets.
                 Together, they form a narrative tapestry woven with whimsy,
                 economic nihilism, and a rallying cry for world peace (🌎☮️).
@@ -612,6 +613,14 @@ export default function Home() {
                     Esoteric hand puppets with community-submitted sign phrases.
                   </li>
                   <li>
+                    Name riffing on Ordinals, Inu meme coins, anon “undoxxed”
+                    culture, and “millionaire” mania.
+                  </li>
+                  <li>
+                    Whitepaper reads like poetic whimsy: “just art,” no roadmap,
+                    no promises.
+                  </li>
+                  <li>
                     No roadmap, no utility promises — just art and attitude.
                   </li>
                   <li>Seeded $PUPS via a community-first airdrop.</li>
@@ -625,10 +634,18 @@ export default function Home() {
                 <ul className="list-disc pl-5">
                   <li>Free mint Jan 3–4, 2024 on InscribeNow.</li>
                   <li>10,001 PFPs with absurd traits and deep inside jokes.</li>
+                  <li>
+                    Lore traits like Coffee Time, Two Chairs, and Pink Pipe
+                    encode community stories.
+                  </li>
                   <li>O.P.I.U.M. holders had priority for 5 Puppets each.</li>
                   <li>
                     Lore jokes about a “12-year-old artist,” but it’s Fou’s
                     handiwork.
+                  </li>
+                  <li>
+                    Includes “Cursed Puppets” with glitched, horror-leaning
+                    variants.
                   </li>
                 </ul>
               </div>
@@ -639,17 +656,21 @@ export default function Home() {
                 </h3>
                 <ul className="list-disc pl-5">
                   <li>
-                    BRC-20 token launched days after O.P.I.U.M., 100% airdropped
-                    to holders.
+                    BRC-20 token launched shortly after O.P.I.U.M., 100%
+                    airdropped to holders.
+                  </li>
+                  <li>
+                    Originated in April 2023 before the PFP drop, born from the
+                    O.P.I.U.M. Discord.
                   </li>
                   <li>
                     Migrated to Runes April 20, 2024: PUPS•WORLD•PEACE (Rune
                     #13).
                   </li>
                   <li>
-                    Community lore says it briefly touched a ~$1B market cap
-                    during the April 2024 meme run; some aggregators record a
-                    lower ATH around ~$760–800M.
+                    Community lore says it briefly touched an almost $1B market
+                    cap during the April 2024 meme run; some aggregators record
+                    a lower ATH around ~$760–800M.
                   </li>
                   <li>
                     22.3% allocated to Rune Pups; 77.7% to legacy holders.
@@ -666,6 +687,10 @@ export default function Home() {
                   <li>Culture &gt; companies. Memes &gt; roadmaps.</li>
                   <li>No-collab thesis. Organic growth only.</li>
                   <li>Embrace the void: “Send them to zero!”</li>
+                  <li>
+                    The “I was promised zero” joke is an anti-promise shield
+                    against price obsession.
+                  </li>
                   <li>World peace (🌎☮️) and emotional gravity over hype.</li>
                 </ul>
               </div>
@@ -707,6 +732,14 @@ export default function Home() {
                     >
                       ordpuppetinuundoxxedmillionaires.com
                     </a>
+                  </li>
+                  <li>
+                    Viral Public License (VPL) lets the IP spread into
+                    community-made derivatives and merch.
+                  </li>
+                  <li>
+                    Holders organize IRL meetups at major conferences (ETH
+                    Denver, NFT.NYC, Bitcoin 2024).
                   </li>
                 </ul>
               </div>
