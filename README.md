@@ -1,5 +1,7 @@
 # Bitcoin Puppets Community Site
 
+https://bitcoinpuppets.community/
+
 A community-led hub for the Bitcoin Puppets Ordinals collection. This site embraces the chaotic, retro, and playful vibe of the Puppets while keeping the codebase clean, fast, and deployable on Cloudflare Workers via OpenNext.
 
 ## Stack
