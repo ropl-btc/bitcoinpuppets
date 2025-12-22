@@ -13,6 +13,17 @@ type Sticker = {
 	link?: string;
 };
 
+const STICKER_MARGIN = 16;
+const STICKER_MAX_SCALE = 1.1;
+
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+const clampStickerX = (x: number, height: number, viewportWidth: number) => {
+	const effectiveSize = height * STICKER_MAX_SCALE;
+	const maxX = Math.max(STICKER_MARGIN, viewportWidth - effectiveSize - STICKER_MARGIN);
+	return clamp(x, STICKER_MARGIN, maxX);
+};
+
 const initialStickers: Sticker[] = [
 	{ id: "head-2", src: "/puppets_heads/head-2.avif", x: 40, y: 220, rotate: -10, height: 96 },
 	{ id: "head-5", src: "/puppets_heads/head-5.avif", x: 760, y: 280, rotate: 12, height: 112 },
@@ -55,48 +66,80 @@ const initialStickers: Sticker[] = [
 export default function DraggableStickers() {
 	const [stickers, setStickers] = useState<Sticker[]>(initialStickers);
 	const stickersRef = useRef<Sticker[]>(initialStickers);
-	const dragIdRef = useRef<string | null>(null);
+	const dragIndexRef = useRef<number | null>(null);
 	const offsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 	const startPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 	const movedRef = useRef(false);
+	const pendingPosRef = useRef<{ x: number; y: number } | null>(null);
+	const rafRef = useRef<number | null>(null);
+	const viewportWidthRef = useRef<number>(0);
 
 	const onPointerMove = useCallback((event: PointerEvent) => {
-		const id = dragIdRef.current;
-		if (!id) return;
-		const current = stickersRef.current.find((sticker) => sticker.id === id);
-		if (!current) return;
-		const nextX = event.pageX - offsetRef.current.x;
+		const index = dragIndexRef.current;
+		if (index === null) return;
+		const viewportWidth = viewportWidthRef.current || document.documentElement.clientWidth;
+		const sticker = stickersRef.current[index] ?? null;
+		if (!sticker) return;
+		const nextX = clampStickerX(event.pageX - offsetRef.current.x, sticker.height, viewportWidth);
 		const nextY = event.pageY - offsetRef.current.y;
 		if (Math.abs(event.pageX - startPosRef.current.x) > 4 || Math.abs(event.pageY - startPosRef.current.y) > 4) {
 			movedRef.current = true;
 		}
-		setStickers((prev) =>
-			prev.map((sticker) =>
-				sticker.id === id ? { ...sticker, x: nextX, y: nextY } : sticker
-			)
-		);
+		pendingPosRef.current = { x: nextX, y: nextY };
+		if (rafRef.current !== null) return;
+		rafRef.current = window.requestAnimationFrame(() => {
+			rafRef.current = null;
+			setStickers((prev) => {
+				const currentIndex = dragIndexRef.current;
+				const pending = pendingPosRef.current;
+				if (currentIndex === null || !pending || !prev[currentIndex]) {
+					return prev;
+				}
+				const next = [...prev];
+				next[currentIndex] = { ...next[currentIndex], x: pending.x, y: pending.y };
+				return next;
+			});
+		});
 	}, []);
 
 	const onPointerUp = useCallback(() => {
-		dragIdRef.current = null;
+		dragIndexRef.current = null;
+		pendingPosRef.current = null;
 	}, []);
-
-	useEffect(() => {
-		window.addEventListener("pointermove", onPointerMove);
-		window.addEventListener("pointerup", onPointerUp);
-		return () => {
-			window.removeEventListener("pointermove", onPointerMove);
-			window.removeEventListener("pointerup", onPointerUp);
-		};
-	}, [onPointerMove, onPointerUp]);
 
 	useEffect(() => {
 		stickersRef.current = stickers;
 	}, [stickers]);
 
+	useEffect(() => {
+		const updateViewport = () => {
+			viewportWidthRef.current = document.documentElement.clientWidth;
+			setStickers((prev) =>
+				prev.map((sticker) => ({
+					...sticker,
+					x: clampStickerX(sticker.x, sticker.height, viewportWidthRef.current),
+				}))
+			);
+		};
+		updateViewport();
+		window.addEventListener("resize", updateViewport);
+		window.addEventListener("pointermove", onPointerMove);
+		window.addEventListener("pointerup", onPointerUp);
+		return () => {
+			window.removeEventListener("resize", updateViewport);
+			window.removeEventListener("pointermove", onPointerMove);
+			window.removeEventListener("pointerup", onPointerUp);
+			if (rafRef.current !== null) {
+				window.cancelAnimationFrame(rafRef.current);
+				rafRef.current = null;
+			}
+		};
+	}, [onPointerMove, onPointerUp]);
+
 	const handlePointerDown = (event: React.PointerEvent<HTMLImageElement>, sticker: Sticker) => {
 		event.preventDefault();
-		dragIdRef.current = sticker.id;
+		const index = stickers.findIndex((item) => item.id === sticker.id);
+		dragIndexRef.current = index >= 0 ? index : null;
 		movedRef.current = false;
 		startPosRef.current = { x: event.pageX, y: event.pageY };
 		offsetRef.current = {

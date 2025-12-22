@@ -8,3 +8,4 @@
 - more easter eggs
 - icons to quick links
 - marketplaces as dropdown in quick links
+- optimize for mobile: stickers currently placed too far right on mobile which leads to horizontal scrolling.
