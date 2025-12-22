@@ -7,10 +7,22 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
+		"typecheck": "tsc --noEmit",
+		"secretlint": "secretlint \"**/*\"",
+		"lint-staged": "lint-staged",
 		"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
 		"upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
 		"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-		"cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
+		"cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
+		"prepare": "node .husky/install.mjs"
+	},
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx}": [
+			"eslint --max-warnings=0 --fix"
+		],
+		"*": [
+			"secretlint"
+		]
 	},
 	"dependencies": {
 		"@opennextjs/cloudflare": "^1.14.4",
@@ -20,12 +32,16 @@
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
+		"@secretlint/secretlint-rule-preset-recommend": "^9.3.4",
 		"@tailwindcss/postcss": "^4",
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
 		"eslint": "^9",
 		"eslint-config-next": "15.4.6",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.5.2",
+		"secretlint": "^9.3.4",
 		"tailwindcss": "^4",
 		"typescript": "^5",
 		"wrangler": "^4.56.0"

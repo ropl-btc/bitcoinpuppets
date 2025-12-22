@@ -241,9 +241,12 @@ export default function Home() {
       </div>
 
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 pt-10 sm:px-6 relative">
-        <img
+        <Image
           src="/favicon.png"
           alt="Bitcoin Puppets favicon"
+          width={96}
+          height={96}
+          priority
           className="pointer-events-none absolute -left-2 top-4 h-24 w-auto rotate-[-8deg] z-[60]"
         />
         <DraggableStickers />
@@ -360,7 +363,7 @@ export default function Home() {
         </section>
 
         <section className="grid gap-4 lg:grid-cols-2 items-start">
-          <div className="pixel-border bg-white/90 p-6 text-black lg:-mt-40">
+          <div className="pixel-border bg-white/90 p-6 text-black lg:-mt-32">
             <div className="window-titlebar mb-4 px-3 py-2 text-sm font-bold uppercase">
               Quick Links.lnk
             </div>
@@ -725,7 +728,7 @@ export default function Home() {
 
       <footer className="mx-auto mt-16 flex w-full max-w-6xl flex-col gap-4 px-4 text-sm sm:px-6">
         <div className="pixel-border window-titlebar px-4 py-3 text-white">
-          Created by Robin, CEO of Liquidium (
+          Website created by Robin, CEO of Liquidium (
           <a
             href="https://x.com/robin_liquidium"
             target="_blank"
