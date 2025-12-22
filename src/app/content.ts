@@ -40,6 +40,11 @@ export const links = [
     note: "World peace hotline. bj.",
   },
   {
+    label: "Community Discord (Karmic Grid)",
+    href: "https://discord.com/invite/JV4nVRpj92",
+    note: "24/7 puppet chat and coordination.",
+  },
+  {
     label: "Memes (memedepot)",
     href: "https://memedepot.com/d/btcpuppets",
     note: "Community meme vault.",
