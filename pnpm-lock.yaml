@@ -10,16 +10,16 @@ importers:
     dependencies:
       '@opennextjs/cloudflare':
         specifier: ^1.14.4
-        version: 1.14.7(next@15.5.9(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(wrangler@4.56.0)
+        version: 1.14.7(next@15.5.9(react-dom@19.1.4(react@19.2.3))(react@19.2.3))(wrangler@4.56.0)
       next:
         specifier: 15.5.9
-        version: 15.5.9(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
+        version: 15.5.9(react-dom@19.1.4(react@19.2.3))(react@19.2.3)
       react:
-        specifier: 19.1.4
-        version: 19.1.4
+        specifier: 19.2.3
+        version: 19.2.3
       react-dom:
         specifier: 19.1.4
-        version: 19.1.4(react@19.1.4)
+        version: 19.1.4(react@19.2.3)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -3541,8 +3541,8 @@ packages:
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
-  react@19.1.4:
-    resolution: {integrity: sha512-DHINL3PAmPUiK1uszfbKiXqfE03eszdt5BpVSuEAHb5nfmNPwnsy7g39h2t8aXFc/Bv99GH81s+j8dobtD+jOw==}
+  react@19.2.3:
+    resolution: {integrity: sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==}
     engines: {node: '>=0.10.0'}
 
   read-pkg@8.1.0:
@@ -5722,7 +5722,7 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@opennextjs/aws@3.9.7(next@15.5.9(react-dom@19.1.4(react@19.1.4))(react@19.1.4))':
+  '@opennextjs/aws@3.9.7(next@15.5.9(react-dom@19.1.4(react@19.2.3))(react@19.2.3))':
     dependencies:
       '@ast-grep/napi': 0.40.0
       '@aws-sdk/client-cloudfront': 3.398.0
@@ -5738,7 +5738,7 @@ snapshots:
       cookie: 1.1.1
       esbuild: 0.25.4
       express: 5.2.1
-      next: 15.5.9(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
+      next: 15.5.9(react-dom@19.1.4(react@19.2.3))(react@19.2.3)
       path-to-regexp: 6.3.0
       urlpattern-polyfill: 10.1.0
       yaml: 2.8.2
@@ -5746,15 +5746,15 @@ snapshots:
       - aws-crt
       - supports-color
 
-  '@opennextjs/cloudflare@1.14.7(next@15.5.9(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(wrangler@4.56.0)':
+  '@opennextjs/cloudflare@1.14.7(next@15.5.9(react-dom@19.1.4(react@19.2.3))(react@19.2.3))(wrangler@4.56.0)':
     dependencies:
       '@ast-grep/napi': 0.40.0
       '@dotenvx/dotenvx': 1.31.0
-      '@opennextjs/aws': 3.9.7(next@15.5.9(react-dom@19.1.4(react@19.1.4))(react@19.1.4))
+      '@opennextjs/aws': 3.9.7(next@15.5.9(react-dom@19.1.4(react@19.2.3))(react@19.2.3))
       cloudflare: 4.5.0
       enquirer: 2.4.1
       glob: 12.0.0
-      next: 15.5.9(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
+      next: 15.5.9(react-dom@19.1.4(react@19.2.3))(react@19.2.3)
       ts-tqdm: 0.8.6
       wrangler: 4.56.0
       yargs: 18.0.0
@@ -8224,15 +8224,15 @@ snapshots:
 
   negotiator@1.0.0: {}
 
-  next@15.5.9(react-dom@19.1.4(react@19.1.4))(react@19.1.4):
+  next@15.5.9(react-dom@19.1.4(react@19.2.3))(react@19.2.3):
     dependencies:
       '@next/env': 15.5.9
       '@swc/helpers': 0.5.15
       caniuse-lite: 1.0.30001761
       postcss: 8.4.31
-      react: 19.1.4
-      react-dom: 19.1.4(react@19.1.4)
-      styled-jsx: 5.1.6(react@19.1.4)
+      react: 19.2.3
+      react-dom: 19.1.4(react@19.2.3)
+      styled-jsx: 5.1.6(react@19.2.3)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.7
       '@next/swc-darwin-x64': 15.5.7
@@ -8467,14 +8467,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  react-dom@19.1.4(react@19.1.4):
+  react-dom@19.1.4(react@19.2.3):
     dependencies:
-      react: 19.1.4
+      react: 19.2.3
       scheduler: 0.26.0
 
   react-is@16.13.1: {}
 
-  react@19.1.4: {}
+  react@19.2.3: {}
 
   read-pkg@8.1.0:
     dependencies:
@@ -8880,10 +8880,10 @@ snapshots:
     dependencies:
       boundary: 2.0.0
 
-  styled-jsx@5.1.6(react@19.1.4):
+  styled-jsx@5.1.6(react@19.2.3):
     dependencies:
       client-only: 0.0.1
-      react: 19.1.4
+      react: 19.2.3
 
   supports-color@10.2.2: {}
 
