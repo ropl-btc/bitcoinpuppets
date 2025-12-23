@@ -88,6 +88,13 @@ body {
   min-height: 100%;
 }
 
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}
+
 *,
 *::before,
 *::after,
