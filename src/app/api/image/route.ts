@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 const ALLOWED_HOSTS = new Set(["ordpuppetinuundoxxedmillionaires.com"]);
 const ALLOWED_FITS = new Set(["contain", "cover", "crop", "pad", "scale-down"]);
 
