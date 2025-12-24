@@ -3,233 +3,37 @@ import Link from "next/link";
 import GalleryControls from "./GalleryControls";
 import GalleryGrid from "./GalleryGrid";
 import GalleryPagination from "./GalleryPagination";
-import {
-	fetchMagicEdenTokens,
-	isMagicEdenSort,
-	MAGIC_EDEN_SORT_OPTIONS,
-} from "@/lib/magicEden";
-
-const COLLECTIONS = [
-  { symbol: "bitcoin-puppets", label: "Bitcoin Puppets" },
-  { symbol: "opium", label: "OPIUM" },
-] as const;
-
-const DEFAULT_COLLECTION = "bitcoin-puppets";
-const DEFAULT_SORT = MAGIC_EDEN_SORT_OPTIONS[0]?.value ?? "listedAtDesc";
-const DEFAULT_PAGE = 1;
-const PAGE_SIZE = 20;
-const SEARCH_BATCH_SIZE = 100;
-const COLLECTION_TOTALS: Record<string, number> = {
-	"bitcoin-puppets": 10001,
-	opium: 777,
-};
-const SOCIAL_IMAGE = "/social_preview.png";
-const SITE_NAME = "Bitcoin Puppets";
-
-type SearchParams = Record<string, string | string[] | undefined>;
-
-type GalleryPageProps = {
-  searchParams?: Promise<SearchParams>;
-};
-
-type GalleryMetadataProps = {
-	searchParams?: Promise<SearchParams>;
-};
-
-function getParam(searchParams: SearchParams | undefined, key: string) {
-  const value = searchParams?.[key];
-  if (Array.isArray(value)) return value[0];
-  return value;
-}
-
-function resolveCollection(value?: string) {
-  if (!value) return DEFAULT_COLLECTION;
-  return COLLECTIONS.some((item) => item.symbol === value)
-    ? value
-    : DEFAULT_COLLECTION;
-}
-
-function resolvePage(value?: string) {
-	const parsed = Number(value ?? DEFAULT_PAGE);
-	if (!Number.isFinite(parsed) || parsed < 1) return DEFAULT_PAGE;
-	return Math.floor(parsed);
-}
-
-function buildBaseQuery(searchParams: SearchParams | undefined) {
-	const query = new URLSearchParams();
-	if (searchParams) {
-		Object.entries(searchParams).forEach(([key, value]) => {
-			if (key === "page") return;
-			const normalized = Array.isArray(value) ? value[0] : value;
-			if (normalized) {
-				query.set(key, normalized);
-			}
-		});
-	}
-	return query.toString();
-}
-
-function normalizeQuery(value: string) {
-	return value.trim().toLowerCase();
-}
-
-function extractSearchNumber(query: string) {
-	const match = query.match(/#?\s*(\d{1,10})/);
-	if (!match) return null;
-	const parsed = Number(match[1]);
-	return Number.isFinite(parsed) ? parsed : null;
-}
-
-function matchesTokenQuery(token: { id: string; displayName?: string; inscriptionNumber: number }, query: string, number: number | null) {
-	const normalized = normalizeQuery(query);
-	if (!normalized) return false;
-	if (token.id.toLowerCase() === normalized) return true;
-	if (token.id.toLowerCase().includes(normalized)) return true;
-	if (token.displayName?.toLowerCase().includes(normalized)) return true;
-	if (number !== null && token.inscriptionNumber === number) return true;
-	if (number !== null && token.displayName?.toLowerCase().includes(`#${number}`)) return true;
-	return false;
-}
-
-async function searchCollectionTokens({
-	collection,
-	query,
-	page,
-	pageSize,
-	listedOnly,
-}: {
-	collection: string;
-	query: string;
-	page: number;
-	pageSize: number;
-	listedOnly: boolean;
-}) {
-	const desiredOffset = (page - 1) * pageSize;
-	const number = extractSearchNumber(query);
-	const totalForCollection = COLLECTION_TOTALS[collection];
-	const totalPages = totalForCollection
-		? Math.ceil(totalForCollection / SEARCH_BATCH_SIZE)
-		: 1;
-	let matchedCount = 0;
-	let hasNext = false;
-	const results: Awaited<ReturnType<typeof fetchMagicEdenTokens>>["tokens"] = [];
-
-	for (let index = 0; index < totalPages; index += 1) {
-		const offset = index * SEARCH_BATCH_SIZE;
-		const { tokens } = await fetchMagicEdenTokens({
-			collectionSymbol: collection,
-			sortBy: "inscriptionNumberAsc",
-			listed: listedOnly ? true : undefined,
-			limit: SEARCH_BATCH_SIZE,
-			offset,
-		});
-
-		for (const token of tokens) {
-			if (!matchesTokenQuery(token, query, number)) continue;
-			matchedCount += 1;
-			if (matchedCount > desiredOffset && results.length < pageSize) {
-				results.push(token);
-			}
-			if (matchedCount > desiredOffset + pageSize) {
-				hasNext = true;
-				break;
-			}
-		}
-
-		if (hasNext) break;
-		if (tokens.length < SEARCH_BATCH_SIZE) break;
-	}
-
-	return { results, hasNext };
-}
+import { DEFAULT_SORT, SITE_NAME, SOCIAL_IMAGE } from "./constants";
+import { getGalleryData } from "./service";
+import { GalleryMetadataProps, GalleryPageProps } from "./types";
+import { getParam, resolveCollection } from "./utils"; // Re-export isMagicEdenSort from utils if needed OR import from lib
+import { isMagicEdenSort } from "@/lib/magicEden";
 
 export default async function GalleryPage({ searchParams }: GalleryPageProps) {
-	const resolvedSearchParams = searchParams ? await searchParams : undefined;
-	const collection = resolveCollection(
-		getParam(resolvedSearchParams, "collection")
-	);
-	const sortByParam = getParam(resolvedSearchParams, "sortBy");
-	const sortBy = isMagicEdenSort(sortByParam) ? sortByParam : DEFAULT_SORT;
-	const listedOnly = getParam(resolvedSearchParams, "listed") === "true";
-	const rawQuery = getParam(resolvedSearchParams, "q")?.trim() ?? "";
-	const page = resolvePage(getParam(resolvedSearchParams, "page"));
-	const offset = (page - 1) * PAGE_SIZE;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
 
-  const activeCollection = COLLECTIONS.find(
-    (item) => item.symbol === collection
-  );
+  const {
+    tokens,
+    activeCollection,
+    pagination: {
+      page,
+      totalPages,
+      previousPage,
+      nextPage,
+      lastPage,
+      baseQuery,
+    },
+    errorMessage,
+    hasSearchMatch,
+    filters: { collection, sortBy, listedOnly, query },
+  } = await getGalleryData(resolvedSearchParams);
 
-	let tokens: Awaited<ReturnType<typeof fetchMagicEdenTokens>>["tokens"] = [];
-	let errorMessage: string | null = null;
-	let hasSearchMatch = false;
-	let nextPage: number | null = null;
-	const query = rawQuery.trim();
-	const tokenIdCandidates = query
-		.split(/[,\s]+/)
-		.map((value) => value.trim())
-		.filter(Boolean);
-	const tokenIdsParam =
-		tokenIdCandidates.length > 0 &&
-		tokenIdCandidates.every((value) => /^[0-9a-f]{64}i\d+$/i.test(value))
-			? tokenIdCandidates.join(",")
-			: undefined;
-
-	try {
-		if (query && tokenIdsParam) {
-			const response = await fetchMagicEdenTokens({
-				collectionSymbol: collection,
-				tokenIds: tokenIdsParam,
-				limit: PAGE_SIZE,
-			});
-			tokens = response.tokens;
-			hasSearchMatch = tokens.length > 0;
-			nextPage = null;
-		} else if (query) {
-			const response = await searchCollectionTokens({
-				collection,
-				query,
-				page,
-				pageSize: PAGE_SIZE,
-				listedOnly,
-			});
-			tokens = response.results;
-			hasSearchMatch = tokens.length > 0;
-			nextPage = response.hasNext ? page + 1 : null;
-		} else {
-			const response = await fetchMagicEdenTokens({
-				collectionSymbol: collection,
-				tokenIds: tokenIdsParam,
-				sortBy,
-				listed: listedOnly ? true : undefined,
-				limit: PAGE_SIZE,
-				offset,
-			});
-			tokens = response.tokens;
-			nextPage = tokens.length === PAGE_SIZE ? page + 1 : null;
-		}
-	} catch (error) {
-    errorMessage =
-      error instanceof Error ? error.message : "Unable to load gallery.";
-  }
-
-	const previousPage = page > 1 ? page - 1 : null;
-	const baseQuery = buildBaseQuery(resolvedSearchParams);
-	const totalForCollection = COLLECTION_TOTALS[collection];
-	const lastPage =
-		!query && !listedOnly && totalForCollection
-			? Math.ceil(totalForCollection / PAGE_SIZE)
-			: null;
-	const totalPages =
-		!query && !listedOnly && totalForCollection
-			? Math.ceil(totalForCollection / PAGE_SIZE)
-			: null;
-
-	return (
+  return (
     <div className="relative min-h-screen pb-20">
       <div className="window-titlebar marquee border-b-4 border-black">
         <span className="text-sm md:text-base font-bold tracking-wide">
-          bj bj bj ✦ MAGIC EDEN GALLERY ✦ WORLD PEACE ONLY ✦ CHAOTIC PIXEL ENERGY
-          ✦ bj bj bj
+          bj bj bj ✦ MAGIC EDEN GALLERY ✦ WORLD PEACE ONLY ✦ CHAOTIC PIXEL
+          ENERGY ✦ bj bj bj
         </span>
       </div>
 
@@ -251,141 +55,148 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
             {activeCollection?.label ?? "Gallery"} Gallery
           </div>
           <p className="text-sm leading-relaxed">
-            Pulling live ordinals data from Magic Eden. Use the controls to sort,
-            filter, and inspect each puppet up close.
+            Pulling live ordinals data from Magic Eden. Use the controls to
+            sort, filter, and inspect each puppet up close.
           </p>
         </section>
 
-		<GalleryControls
-			collection={collection}
-			sortBy={sortBy}
-			listedOnly={listedOnly}
-			query={query}
-		/>
+        <GalleryControls
+          collection={collection}
+          sortBy={sortBy}
+          listedOnly={listedOnly}
+          query={query}
+        />
 
-		<section className="pixel-border bg-white/95 p-6 text-black">
-			<div className="window-titlebar mb-4 flex items-center justify-between px-3 py-2 text-sm font-bold uppercase">
-				<span>Results</span>
-				<span className="text-xs">
-					Page {page}
-					{totalPages ? ` of ${totalPages}` : ""}
-					{listedOnly ? " · Listed" : ""}
-					{query ? " · Search" : ""}
-				</span>
-			</div>
-			{query ? (
-				<div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-bold uppercase">
-					<div className="pixel-border bg-white px-3 py-2">
-						Results for: <span className="text-puppet-purple">{query}</span>
-					</div>
-					<Link
-						href={`/gallery?${new URLSearchParams({
-							collection,
-							sortBy,
-							...(listedOnly ? { listed: "true" } : {}),
-						}).toString()}`}
-						className="pixel-border bg-puppet-pink px-3 py-2 text-xs font-bold uppercase text-black hover:-translate-y-0.5 hover:shadow-press transition"
-					>
-						Clear
-					</Link>
-				</div>
-			) : null}
+        <section className="pixel-border bg-white/95 p-6 text-black">
+          <div className="window-titlebar mb-4 flex items-center justify-between px-3 py-2 text-sm font-bold uppercase">
+            <span>Results</span>
+            <span className="text-xs">
+              Page {page}
+              {totalPages ? ` of ${totalPages}` : ""}
+              {listedOnly ? " · Listed" : ""}
+              {query ? " · Search" : ""}
+            </span>
+          </div>
+          {query ? (
+            <div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-bold uppercase">
+              <div className="pixel-border bg-white px-3 py-2">
+                Results for: <span className="text-puppet-purple">{query}</span>
+              </div>
+              <Link
+                href={`/gallery?${new URLSearchParams({
+                  collection,
+                  sortBy,
+                  ...(listedOnly ? { listed: "true" } : {}),
+                }).toString()}`}
+                className="pixel-border bg-puppet-pink px-3 py-2 text-xs font-bold uppercase text-black hover:-translate-y-0.5 hover:shadow-press transition"
+              >
+                Clear
+              </Link>
+            </div>
+          ) : null}
 
-			{errorMessage ? (
+          {errorMessage ? (
             <div className="pixel-border bg-puppet-pink px-4 py-3 text-sm font-bold uppercase text-black">
               {errorMessage}
             </div>
-				) : tokens.length ? (
-					<GalleryGrid
-						tokens={tokens}
-						collectionLabel={activeCollection?.label ?? "Gallery"}
-					/>
-				) : (
-					<div className="pixel-border bg-white px-4 py-3 text-sm">
-						{query && !hasSearchMatch
-							? "No results on this page. Try another page or clear search."
-							: "No puppets found for these filters."}
-					</div>
-				)}
+          ) : tokens.length ? (
+            <GalleryGrid
+              tokens={tokens}
+              collectionLabel={activeCollection?.label ?? "Gallery"}
+            />
+          ) : (
+            <div className="pixel-border bg-white px-4 py-3 text-sm">
+              {query && !hasSearchMatch
+                ? "No results on this page. Try another page or clear search."
+                : "No puppets found for these filters."}
+            </div>
+          )}
 
-			<div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-				<div className="text-xs font-bold uppercase">
-					Showing {tokens.length} items
-				</div>
-			</div>
-			<GalleryPagination
-				baseQuery={baseQuery}
-				page={page}
-				hasNext={Boolean(nextPage)}
-				hasPrev={Boolean(previousPage)}
-				lastPage={lastPage}
-				totalPages={totalPages}
-			/>
-		</section>
-	</main>
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+            <div className="text-xs font-bold uppercase">
+              Showing {tokens.length} items
+            </div>
+          </div>
+          <GalleryPagination
+            baseQuery={baseQuery}
+            page={page}
+            hasNext={Boolean(nextPage)}
+            hasPrev={Boolean(previousPage)}
+            lastPage={lastPage}
+            totalPages={totalPages}
+          />
+        </section>
+      </main>
     </div>
   );
 }
 
 export async function generateMetadata({
-	searchParams,
+  searchParams,
 }: GalleryMetadataProps): Promise<Metadata> {
-	const resolvedSearchParams = searchParams ? await searchParams : undefined;
-	const collection = resolveCollection(
-		getParam(resolvedSearchParams, "collection")
-	);
-	const sortByParam = getParam(resolvedSearchParams, "sortBy");
-	const sortBy = isMagicEdenSort(sortByParam) ? sortByParam : DEFAULT_SORT;
-	const listedOnly = getParam(resolvedSearchParams, "listed") === "true";
-	const query = getParam(resolvedSearchParams, "q")?.trim() ?? "";
-	const activeCollection = COLLECTIONS.find(
-		(item) => item.symbol === collection
-	);
-	const title = `${activeCollection?.label ?? "Gallery"} Gallery`;
-	const description =
-		"Browse live Bitcoin Puppets and OPIUM ordinals pulled from Magic Eden. Filter, sort, and inspect each puppet up close.";
-	const hasFilters =
-		collection !== DEFAULT_COLLECTION ||
-		sortBy !== DEFAULT_SORT ||
-		listedOnly ||
-		Boolean(query);
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const collection = resolveCollection(
+    getParam(resolvedSearchParams, "collection")
+  );
+  const sortByParam = getParam(resolvedSearchParams, "sortBy");
+  const sortBy = isMagicEdenSort(sortByParam) ? sortByParam : DEFAULT_SORT;
+  const listedOnly = getParam(resolvedSearchParams, "listed") === "true";
+  const query = getParam(resolvedSearchParams, "q")?.trim() ?? "";
 
-	return {
-		title,
-		description,
-		alternates: {
-			canonical: "/gallery",
-		},
-		openGraph: {
-			title,
-			description,
-			url: "/gallery",
-			siteName: SITE_NAME,
-			locale: "en_US",
-			type: "website",
-			images: [
-				{
-					url: SOCIAL_IMAGE,
-					width: 1200,
-					height: 630,
-					alt: title,
-				},
-			],
-		},
-		twitter: {
-			card: "summary_large_image",
-			title,
-			description,
-			images: [SOCIAL_IMAGE],
-		},
-		robots: hasFilters
-			? {
-					index: false,
-					follow: true,
-				}
-			: {
-					index: true,
-					follow: true,
-				},
-	};
+  // We can't reuse resolveActiveCollection easily without moving it, but find is cheap.
+  // Actually we should export collections from constants and use finding logic there if duplicated.
+  // For now inline is fine or import COLLECTIONS.
+  const { COLLECTIONS } = await import("./constants");
+
+  const activeCollection = COLLECTIONS.find(
+    (item) => item.symbol === collection
+  );
+
+  const title = `${activeCollection?.label ?? "Gallery"} Gallery`;
+  const description =
+    "Browse live Bitcoin Puppets and OPIUM ordinals pulled from Magic Eden. Filter, sort, and inspect each puppet up close.";
+  const hasFilters =
+    collection !== "bitcoin-puppets" || // DEFAULT_COLLECTION
+    sortBy !== DEFAULT_SORT ||
+    listedOnly ||
+    Boolean(query);
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: "/gallery",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/gallery",
+      siteName: SITE_NAME,
+      locale: "en_US",
+      type: "website",
+      images: [
+        {
+          url: SOCIAL_IMAGE,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [SOCIAL_IMAGE],
+    },
+    robots: hasFilters
+      ? {
+          index: false,
+          follow: true,
+        }
+      : {
+          index: true,
+          follow: true,
+        },
+  };
 }
