@@ -8,7 +8,8 @@ type Sticker = {
   src: string;
   x: number;
   y: number;
-  mobileX?: number;
+  mobileLeft?: number;
+  mobileRight?: number;
   mobileY?: number;
   rotate: number;
   height: number;
@@ -46,13 +47,28 @@ const getIsMobileViewport = () => {
   return viewportWidth <= STICKER_MOBILE_BREAKPOINT;
 };
 
-const buildResponsiveStickers = (mobile: boolean) =>
-  initialStickers.map((sticker) => ({
-    ...sticker,
-    x: mobile && sticker.mobileX != null ? sticker.mobileX : sticker.x,
-    y: mobile && sticker.mobileY != null ? sticker.mobileY : sticker.y,
-  }));
-
+const buildResponsiveStickers = (
+  mobile: boolean,
+  viewportWidth: number,
+  containerLeft: number
+) =>
+  initialStickers.map((sticker) => {
+    if (!mobile) {
+      return sticker;
+    }
+    const x =
+      sticker.mobileLeft != null
+        ? sticker.mobileLeft
+        : sticker.mobileRight != null
+        ? viewportWidth - containerLeft - sticker.height - sticker.mobileRight
+        : sticker.x;
+    const y = sticker.mobileY != null ? sticker.mobileY : sticker.y;
+    return {
+      ...sticker,
+      x,
+      y,
+    };
+  });
 
 const initialStickers: Sticker[] = [
   {
@@ -60,8 +76,8 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-2.avif",
     x: -20,
     y: 200,
-    mobileX: 253,
-    mobileY: 193,
+    mobileLeft: 156,
+    mobileY: -3,
     rotate: -10,
     height: 96,
   },
@@ -70,7 +86,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-11.avif",
     x: 500,
     y: 310,
-    mobileX: 227,
+    mobileRight: 28,
     mobileY: 443,
     rotate: -8,
     height: 120,
@@ -80,7 +96,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-5.avif",
     x: 1060,
     y: 40,
-    mobileX: 236,
+    mobileRight: 27,
     mobileY: 40,
     rotate: 12,
     height: 112,
@@ -90,7 +106,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-7.avif",
     x: -30,
     y: 610,
-    mobileX: 16,
+    mobileLeft: 16,
     mobileY: 1009,
     rotate: 10,
     height: 96,
@@ -100,7 +116,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-9.avif",
     x: 1050,
     y: 740,
-    mobileX: 238,
+    mobileRight: 27,
     mobileY: 693,
     rotate: 9,
     height: 110,
@@ -110,7 +126,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-12.avif",
     x: 760,
     y: 520,
-    mobileX: 92,
+    mobileLeft: 92,
     mobileY: 649,
     rotate: 14,
     height: 104,
@@ -121,7 +137,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-4.avif",
     x: 540,
     y: 720,
-    mobileX: 262,
+    mobileRight: 25,
     mobileY: 989,
     rotate: -12,
     height: 88,
@@ -131,7 +147,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-15.avif",
     x: 820,
     y: 1315,
-    mobileX: 253,
+    mobileRight: 26,
     mobileY: 1384,
     rotate: 6,
     height: 96,
@@ -141,7 +157,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-18.avif",
     x: 460,
     y: 1240,
-    mobileX: 240,
+    mobileRight: 27,
     mobileY: 1089,
     rotate: -10,
     height: 108,
@@ -151,7 +167,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-6.avif",
     x: 620,
     y: 1770,
-    mobileX: 227,
+    mobileRight: 28,
     mobileY: 1662,
     rotate: 8,
     height: 120,
@@ -161,7 +177,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-3.avif",
     x: 900,
     y: 1850,
-    mobileX: 183,
+    mobileRight: 32,
     mobileY: 2043,
     rotate: 12,
     height: 160,
@@ -171,7 +187,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-13.avif",
     x: 105,
     y: 2280,
-    mobileX: 253,
+    mobileRight: 26,
     mobileY: 2685,
     rotate: -8,
     height: 96,
@@ -181,7 +197,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-8.avif",
     x: 820,
     y: 2120,
-    mobileX: 253,
+    mobileRight: 26,
     mobileY: 2366,
     rotate: 10,
     height: 96,
@@ -191,7 +207,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-10.avif",
     x: 760,
     y: 2140,
-    mobileX: 16,
+    mobileLeft: 16,
     mobileY: 2090,
     rotate: -12,
     height: 110,
@@ -201,7 +217,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-16.avif",
     x: 260,
     y: 2800,
-    mobileX: 236,
+    mobileRight: 27,
     mobileY: 3584,
     rotate: 6,
     height: 112,
@@ -211,7 +227,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-14.avif",
     x: -20,
     y: 3120,
-    mobileX: 16,
+    mobileLeft: 16,
     mobileY: 3163,
     rotate: 8,
     height: 100,
@@ -221,7 +237,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-17.avif",
     x: 1080,
     y: 3780,
-    mobileX: 240,
+    mobileRight: 27,
     mobileY: 4016,
     rotate: 14,
     height: 108,
@@ -231,7 +247,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-1.avif",
     x: -50,
     y: 4320,
-    mobileX: 16,
+    mobileLeft: 16,
     mobileY: 4600,
     rotate: -6,
     height: 112,
@@ -241,7 +257,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-3.avif",
     x: 1080,
     y: 4860,
-    mobileX: 245,
+    mobileRight: 26,
     mobileY: 4811,
     rotate: 9,
     height: 104,
@@ -251,7 +267,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-6.avif",
     x: -40,
     y: 5020,
-    mobileX: 249,
+    mobileRight: 26,
     mobileY: 4956,
     rotate: 12,
     height: 100,
@@ -261,7 +277,7 @@ const initialStickers: Sticker[] = [
     src: "/puppets_heads/head-9.avif",
     x: 920,
     y: 5660,
-    mobileX: 227,
+    mobileRight: 28,
     mobileY: 5917,
     rotate: -10,
     height: 120,
@@ -389,7 +405,11 @@ export default function DraggableStickers() {
       setStickers((prev) =>
         (hasDraggedRef.current
           ? prev
-          : buildResponsiveStickers(getIsMobileViewport())
+          : buildResponsiveStickers(
+              getIsMobileViewport(),
+              viewportWidthRef.current,
+              containerLeft
+            )
         ).map((sticker) => ({
           ...sticker,
           x: clampStickerX(
@@ -431,7 +451,7 @@ export default function DraggableStickers() {
   const handleCopySticker = (sticker: Sticker) => {
     const x = Math.round(sticker.x);
     const y = Math.round(sticker.y);
-    copyText(`{ id: "${sticker.id}", mobileX: ${x}, mobileY: ${y} }`);
+    copyText(`{ id: "${sticker.id}", mobileLeft: ${x}, mobileY: ${y} }`);
   };
 
   const handleCopyAllMobile = () => {
@@ -439,7 +459,7 @@ export default function DraggableStickers() {
       .map((sticker) => {
         const x = Math.round(sticker.x);
         const y = Math.round(sticker.y);
-        return `\t{ id: "${sticker.id}", mobileX: ${x}, mobileY: ${y} },`;
+        return `\t{ id: "${sticker.id}", mobileLeft: ${x}, mobileY: ${y} },`;
       })
       .join("\n");
     copyText(lines);
@@ -521,6 +541,24 @@ export default function DraggableStickers() {
             className="block h-full w-full object-contain"
             draggable={false}
           />
+          {sticker.id === "head-11" && (
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 pointer-events-none z-10">
+              <div className="relative bg-white text-black text-xs font-bold px-2 py-1 rounded border-2 border-black whitespace-nowrap shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                drag me
+                <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-black"></div>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 -translate-y-[0.5px] w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white"></div>
+              </div>
+            </div>
+          )}
+          {sticker.id === "head-9" && (
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 pointer-events-none z-10">
+              <div className="relative bg-white text-black text-xs font-bold px-2 py-1 rounded border-2 border-black whitespace-nowrap shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                click me
+                <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-black"></div>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 -translate-y-[0.5px] w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white"></div>
+              </div>
+            </div>
+          )}
         </a>
       ))}
       {debugEnabled ? (
