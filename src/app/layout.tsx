@@ -41,6 +41,64 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: [
+      {
+        url: "/favicons/favicon.png",
+        sizes: "118x118",
+        type: "image/png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/favicons/favicon-dark.png",
+        sizes: "118x118",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/favicons/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/favicons/favicon-32x32-dark.png",
+        sizes: "32x32",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/favicons/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/favicons/favicon-16x16-dark.png",
+        sizes: "16x16",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/favicons/favicon-dark.ico",
+        sizes: "any",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/favicons/favicon.ico",
+        sizes: "any",
+        media: "(prefers-color-scheme: light)",
+      },
+    ],
+    apple: [
+      {
+        url: "/favicons/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
+  manifest: "/favicons/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -50,64 +108,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link
-          rel="icon"
-          href="/favicon.png"
-          type="image/png"
-          sizes="118x118"
-          media="(prefers-color-scheme: light)"
-        ></link>
-        <link
-          rel="icon"
-          href="/favicon-dark.png"
-          type="image/png"
-          sizes="118x118"
-          media="(prefers-color-scheme: dark)"
-        ></link>
-        <link
-          rel="icon"
-          href="/favicon-32x32.png"
-          type="image/png"
-          sizes="32x32"
-          media="(prefers-color-scheme: light)"
-        ></link>
-        <link
-          rel="icon"
-          href="/favicon-32x32-dark.png"
-          type="image/png"
-          sizes="32x32"
-          media="(prefers-color-scheme: dark)"
-        ></link>
-        <link
-          rel="icon"
-          href="/favicon-16x16.png"
-          type="image/png"
-          sizes="16x16"
-          media="(prefers-color-scheme: light)"
-        ></link>
-        <link
-          rel="icon"
-          href="/favicon-16x16-dark.png"
-          type="image/png"
-          sizes="16x16"
-          media="(prefers-color-scheme: dark)"
-        ></link>
-        <link
-          rel="icon"
-          href="/favicon.ico"
-          sizes="any"
-          media="(prefers-color-scheme: light)"
-        ></link>
-        <link
-          rel="icon"
-          href="/favicon-dark.ico"
-          sizes="any"
-          media="(prefers-color-scheme: dark)"
-        ></link>
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
-        <link rel="manifest" href="/site.webmanifest"></link>
-      </head>
       <body className="font-comic">{children}</body>
     </html>
   );
