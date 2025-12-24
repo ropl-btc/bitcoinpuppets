@@ -13,7 +13,7 @@ import {
   QuickLinksSection,
   SiteFooter,
   VideosSection,
-} from "./components/home/HomeSections";
+} from "./components/home";
 
 export const metadata: Metadata = {
   title: "Community Hub",

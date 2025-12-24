@@ -1,4 +1,6 @@
-export const links = [
+import { CursedInscription, FaqItem, LinkItem } from "./types";
+
+export const links: LinkItem[] = [
   {
     label: "Official OPIUM Site",
     href: "https://ordpuppetinuundoxxedmillionaires.com/",
@@ -56,7 +58,7 @@ export const links = [
   },
 ];
 
-export const faq = [
+export const faq: FaqItem[] = [
   {
     question: "What are Bitcoin Puppets?",
     answer:
@@ -88,7 +90,7 @@ export const faq = [
   },
 ];
 
-export const cursedInscriptions = [
+export const cursedInscriptions: CursedInscription[] = [
   {
     label: "Inscription -3465",
     href: "https://ordinals.com/inscription/dbd322f774dd7d98ec0985a8f47a43526ef363f3353e5033adf2408176c81ed6i0",
@@ -175,7 +177,7 @@ export const cursedInscriptions = [
   },
 ];
 
-export const funnyMedia = [
+export const funnyMedia: string[] = [
   "https://ordpuppetinuundoxxedmillionaires.com/funnypictures/IMG_2183.jpeg",
   "https://ordpuppetinuundoxxedmillionaires.com/funnypictures/IMG_2215.png",
   "https://ordpuppetinuundoxxedmillionaires.com/funnypictures/IMG_2221.png",
