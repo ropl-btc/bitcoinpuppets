@@ -14,10 +14,26 @@ export default function QuickLinksSection() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="pixel-border bg-white px-4 py-3 text-sm font-bold uppercase text-black hover:-translate-y-0.5 hover:shadow-press transition"
+              className="pixel-border bg-white px-4 py-3 text-sm font-bold uppercase text-black hover:-translate-y-0.5 hover:shadow-press transition flex items-center gap-4"
             >
-              <div className="text-base">{link.label}</div>
-              <div className="text-xs font-normal normal-case">{link.note}</div>
+              {link.iconUrl && (
+                <div className="relative h-10 w-10 shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={link.iconUrl}
+                    alt={`${link.label} icon`}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+              <div>
+                <div className="text-base leading-tight mb-0.5">
+                  {link.label}
+                </div>
+                <div className="text-xs font-normal normal-case leading-tight text-gray-600">
+                  {link.note}
+                </div>
+              </div>
             </a>
           ))}
         </div>
@@ -29,16 +45,19 @@ export default function QuickLinksSection() {
         </div>
         <ul className="grid gap-3 text-sm font-bold uppercase">
           <li className="pixel-border bg-white/90 px-4 py-3 text-black">
-            Say bj when you arrive.
+            1. Say bj when you arrive.
           </li>
           <li className="pixel-border bg-white/90 px-4 py-3 text-black">
-            Post art, memes, and offbeat ideas.
+            2. Post art, memes, and offbeat ideas.
           </li>
           <li className="pixel-border bg-white/90 px-4 py-3 text-black">
-            Protect the free culture. Send it to zero.
+            3. Protect the culture.
           </li>
           <li className="pixel-border bg-white/90 px-4 py-3 text-black">
-            World peace above all.
+            4. Send it to zero.
+          </li>
+          <li className="pixel-border bg-white/90 px-4 py-3 text-black">
+            5. World peace above all. 🌍☮️
           </li>
         </ul>
       </div>

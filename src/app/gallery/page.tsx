@@ -43,7 +43,7 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
             href="/"
             className="pixel-border bg-white px-3 py-2 text-xs font-bold uppercase text-black hover:-translate-y-0.5 hover:shadow-press transition"
           >
-            Back to HQ
+            Back to Home
           </Link>
           <div className="pixel-border bg-black px-3 py-2 text-xs font-bold uppercase text-white">
             {activeCollection?.label ?? "Gallery"}

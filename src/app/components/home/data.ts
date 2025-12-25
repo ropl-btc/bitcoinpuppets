@@ -2,9 +2,52 @@ import { CursedInscription, FaqItem, LinkItem } from "./types";
 
 export const links: LinkItem[] = [
   {
+    label: "Magic Eden Marketplace",
+    href: "https://magiceden.io/ordinals/marketplace/bitcoin-puppets",
+    note: "Scroll, trade, vibe.",
+    iconUrl: "https://unavatar.io/twitter/MEonBTC",
+  },
+  {
+    label: "Satflow Marketplace",
+    href: "https://www.satflow.com/ordinals/bitcoin-puppets",
+    note: "Another portal into the puppetverse.",
+    iconUrl: "https://unavatar.io/twitter/Satflow",
+  },
+  {
+    label: "Community Twitter",
+    href: "https://x.com/BitcoinPuppets",
+    note: "Memes, updates, and raw puppet energy.",
+    iconUrl: "https://unavatar.io/twitter/X",
+  },
+  {
+    label: "Community Telegram",
+    href: "https://t.me/worldpeacegospel",
+    note: "World peace hotline. bj.",
+    iconUrl: "https://unavatar.io/twitter/telegram",
+  },
+  {
+    label: "Community Discord (Karmic Grid)",
+    href: "https://discord.com/invite/JV4nVRpj92",
+    note: "24/7 puppet chat and coordination.",
+    iconUrl: "https://unavatar.io/twitter/discord",
+  },
+  {
     label: "Official OPIUM Site",
     href: "https://ordpuppetinuundoxxedmillionaires.com/",
     note: "The chaotic masterpiece that started it all.",
+    iconUrl: "https://unavatar.io/twitter/BitcoinPuppets",
+  },
+  {
+    label: "Memes (memedepot)",
+    href: "https://memedepot.com/d/btcpuppets",
+    note: "Community meme vault.",
+    iconUrl: "https://unavatar.io/twitter/memedepot",
+  },
+  {
+    label: "Liquidium.WTF (Puppet Loans)",
+    href: "https://app.liquidium.wtf/ordinals/bitcoin-puppets",
+    note: "Loans against Bitcoin Puppets.",
+    iconUrl: "https://unavatar.io/twitter/LiquidiumWTF",
   },
   {
     label: "Manifesto (Gospel of World Peace)",
@@ -20,41 +63,6 @@ export const links: LinkItem[] = [
     label: "Puppet Hash List JSON",
     href: "https://ordpuppetinuundoxxedmillionaires.com/puppethashlist.json",
     note: "On-chain hash list data.",
-  },
-  {
-    label: "Magic Eden Marketplace",
-    href: "https://magiceden.io/ordinals/marketplace/bitcoin-puppets",
-    note: "Scroll, trade, vibe.",
-  },
-  {
-    label: "Satflow Marketplace",
-    href: "https://www.satflow.com/ordinals/bitcoin-puppets",
-    note: "Another portal into the puppetverse.",
-  },
-  {
-    label: "Community Twitter",
-    href: "https://x.com/BitcoinPuppets",
-    note: "Memes, updates, and raw puppet energy.",
-  },
-  {
-    label: "Community Telegram",
-    href: "https://t.me/worldpeacegospel",
-    note: "World peace hotline. bj.",
-  },
-  {
-    label: "Community Discord (Karmic Grid)",
-    href: "https://discord.com/invite/JV4nVRpj92",
-    note: "24/7 puppet chat and coordination.",
-  },
-  {
-    label: "Memes (memedepot)",
-    href: "https://memedepot.com/d/btcpuppets",
-    note: "Community meme vault.",
-  },
-  {
-    label: "Liquidium.WTF (Puppet Loans)",
-    href: "https://app.liquidium.wtf/ordinals/bitcoin-puppets",
-    note: "Loans against Bitcoin Puppets.",
   },
 ];
 

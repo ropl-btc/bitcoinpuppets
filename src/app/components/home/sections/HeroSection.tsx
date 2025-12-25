@@ -20,14 +20,12 @@ export default function HeroSection() {
           offbeat.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href="https://magiceden.io/ordinals/marketplace/bitcoin-puppets"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="pixel-border bg-puppet-green px-3 py-2 text-sm font-bold uppercase inline-block hover:-translate-y-0.5 hover:shadow-press transition"
+          <Link
+            href="/gallery"
+            className="pixel-border bg-puppet-blue px-3 py-2 text-sm font-bold uppercase inline-block hover:-translate-y-0.5 hover:shadow-press transition"
           >
-            Free Mint
-          </a>
+            Gallery
+          </Link>
           <a
             href="https://x.com/BitcoinPuppets"
             target="_blank"
@@ -44,12 +42,6 @@ export default function HeroSection() {
           >
             World Peace 🌎☮️
           </a>
-          <Link
-            href="/gallery"
-            className="pixel-border bg-puppet-blue px-3 py-2 text-sm font-bold uppercase inline-block hover:-translate-y-0.5 hover:shadow-press transition"
-          >
-            Gallery
-          </Link>
         </div>
       </div>
 
