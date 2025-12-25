@@ -58,7 +58,7 @@ export default function SantaGeneratorPage() {
             <div className="window-titlebar mb-4 flex items-center justify-between px-3 py-2">
               <span className="text-sm font-bold uppercase">Hat Reference</span>
             </div>
-            <div className="bg-white p-3 border-4 border-black">
+            <div className="bg-black p-3 border-4 border-black">
               <Image
                 src="/assets/puppets-santa-hat.png"
                 alt="Bitcoin Puppets Santa hat reference"

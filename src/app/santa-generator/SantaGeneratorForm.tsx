@@ -174,6 +174,17 @@ export default function SantaGeneratorForm() {
         ) : null}
 
         <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="submit"
+            disabled={state.isSubmitting}
+            className="pixel-border bg-puppet-purple px-4 py-2 text-sm font-bold uppercase hover:-translate-y-0.5 hover:shadow-press transition disabled:opacity-60 disabled:hover:translate-y-0"
+          >
+            {state.isSubmitting
+              ? "Generating..."
+              : state.resultUrl
+                ? "Re-generate Santa Hat"
+                : "Generate Santa Hat"}
+          </button>
           {state.resultUrl ? (
             <a
               href={state.resultUrl}
@@ -182,15 +193,7 @@ export default function SantaGeneratorForm() {
             >
               Download PNG
             </a>
-          ) : (
-            <button
-              type="submit"
-              disabled={state.isSubmitting}
-              className="pixel-border bg-puppet-purple px-4 py-2 text-sm font-bold uppercase hover:-translate-y-0.5 hover:shadow-press transition disabled:opacity-60 disabled:hover:translate-y-0"
-            >
-              {state.isSubmitting ? "Generating..." : "Generate Santa Hat"}
-            </button>
-          )}
+          ) : null}
         </div>
 
         <p className="text-xs uppercase font-bold">
