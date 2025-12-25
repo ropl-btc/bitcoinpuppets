@@ -26,6 +26,12 @@ export default function HeroSection() {
           >
             Gallery
           </Link>
+          <Link
+            href="/santa-generator"
+            className="pixel-border bg-puppet-green px-3 py-2 text-sm font-bold uppercase inline-block hover:-translate-y-0.5 hover:shadow-press transition"
+          >
+            Santa Generator 🎅
+          </Link>
           <a
             href="https://x.com/BitcoinPuppets"
             target="_blank"

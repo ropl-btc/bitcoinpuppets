@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { links } from "../data";
 
 export default function QuickLinksSection() {
@@ -8,34 +9,41 @@ export default function QuickLinksSection() {
           Quick Links.lnk
         </div>
         <div className="grid gap-3">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pixel-border bg-white px-4 py-3 text-sm font-bold uppercase text-black hover:-translate-y-0.5 hover:shadow-press transition flex items-center gap-4"
-            >
-              {link.iconUrl && (
-                <div className="relative h-10 w-10 shrink-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={link.iconUrl}
-                    alt={`${link.label} icon`}
-                    className="h-full w-full object-cover"
-                  />
+          {links.map((link) => {
+            const isInternal = link.href.startsWith("/");
+            const LinkComponent = isInternal ? Link : "a";
+            const externalProps = isInternal
+              ? {}
+              : { target: "_blank", rel: "noopener noreferrer" };
+
+            return (
+              <LinkComponent
+                key={link.href}
+                href={link.href}
+                {...externalProps}
+                className="pixel-border bg-white px-4 py-3 text-sm font-bold uppercase text-black hover:-translate-y-0.5 hover:shadow-press transition flex items-center gap-4"
+              >
+                {link.iconUrl && (
+                  <div className="relative h-10 w-10 shrink-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={link.iconUrl}
+                      alt={`${link.label} icon`}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
+                <div>
+                  <div className="text-base leading-tight mb-0.5">
+                    {link.label}
+                  </div>
+                  <div className="text-xs font-normal normal-case leading-tight text-gray-600">
+                    {link.note}
+                  </div>
                 </div>
-              )}
-              <div>
-                <div className="text-base leading-tight mb-0.5">
-                  {link.label}
-                </div>
-                <div className="text-xs font-normal normal-case leading-tight text-gray-600">
-                  {link.note}
-                </div>
-              </div>
-            </a>
-          ))}
+              </LinkComponent>
+            );
+          })}
         </div>
       </div>
 

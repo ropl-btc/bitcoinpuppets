@@ -2,6 +2,12 @@ import { CursedInscription, FaqItem, LinkItem } from "./types";
 
 export const links: LinkItem[] = [
   {
+    label: "Santa Generator",
+    href: "/santa-generator",
+    note: "Puppetize your holiday vibe with Santa hats.",
+    iconUrl: "/assets/puppet-santa.png",
+  },
+  {
     label: "Magic Eden Marketplace",
     href: "https://magiceden.io/ordinals/marketplace/bitcoin-puppets",
     note: "Scroll, trade, vibe.",
