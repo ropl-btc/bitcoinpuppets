@@ -10,8 +10,12 @@ import {
 export const useDraggableStickers = () => {
   const [stickers, setStickers] = useState<Sticker[]>(initialStickers);
   const [debugEnabled, setDebugEnabled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(0);
+  const [containerLeft, setContainerLeft] = useState(0);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
+
   const stickersRef = useRef<Sticker[]>(initialStickers);
   const bruhAudioRef = useRef<HTMLAudioElement | null>(null);
   const dragIndexRef = useRef<number | null>(null);
@@ -134,18 +138,23 @@ export const useDraggableStickers = () => {
   useEffect(() => {
     const updateViewport = () => {
       viewportWidthRef.current = document.documentElement.clientWidth;
-      const containerLeft =
+      setViewportWidth(viewportWidthRef.current);
+      const isMobileNow = getIsMobileViewport();
+      setIsMobile(isMobileNow);
+
+      const containerLeftNow =
         containerRef.current?.getBoundingClientRect().left ?? 0;
-      containerLeftRef.current = containerLeft;
+      containerLeftRef.current = containerLeftNow;
+      setContainerLeft(containerLeftNow);
 
       setStickers((prev) =>
         (hasDraggedRef.current
           ? prev
           : buildResponsiveStickers(
               prev,
-              getIsMobileViewport(),
+              isMobileNow,
               viewportWidthRef.current,
-              containerLeft
+              containerLeftNow
             )
         ).map((sticker) => ({
           ...sticker,
@@ -153,7 +162,7 @@ export const useDraggableStickers = () => {
             sticker.x,
             sticker.height,
             viewportWidthRef.current,
-            containerLeft
+            containerLeftNow
           ),
         }))
       );
@@ -232,6 +241,9 @@ export const useDraggableStickers = () => {
   return {
     stickers,
     debugEnabled,
+    isMobile,
+    viewportWidth,
+    containerLeft,
     containerRef,
     handlePointerDown,
     handleClick,

@@ -8,6 +8,9 @@ export default function DraggableStickers() {
   const {
     stickers,
     debugEnabled,
+    isMobile,
+    viewportWidth,
+    containerLeft,
     containerRef,
     handlePointerDown,
     handleClick,
@@ -25,7 +28,13 @@ export default function DraggableStickers() {
         />
       ))}
       {debugEnabled && (
-        <DebugOverlay stickers={stickers} onDisable={handleDisableDebug} />
+        <DebugOverlay
+          stickers={stickers}
+          isMobile={isMobile}
+          viewportWidth={viewportWidth}
+          containerLeft={containerLeft}
+          onDisable={handleDisableDebug}
+        />
       )}
     </div>
   );

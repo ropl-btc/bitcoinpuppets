@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import DraggableStickers from "./components/DraggableStickers";
 import {
+  CommunityChecklist,
   CursedInscriptionsSection,
   FaqSection,
   FunnyMediaSection,
@@ -10,9 +11,10 @@ import {
   LoreSection,
   ManifestoSection,
   NoCollabSection,
+  OpiumOrigins,
+  PuppetInterview,
   QuickLinksSection,
   SiteFooter,
-  VideosSection,
 } from "./components/home";
 
 export const metadata: Metadata = {
@@ -46,11 +48,22 @@ export default function Home() {
         <DraggableStickers />
         <HeroSection />
         <ManifestoSection />
-        <VideosSection />
-        <QuickLinksSection />
+
+        <div className="grid gap-4 lg:grid-cols-2 items-start">
+          <div className="flex flex-col gap-4">
+            <QuickLinksSection />
+            <CursedInscriptionsSection />
+          </div>
+          <div className="flex flex-col gap-4">
+            <OpiumOrigins />
+            <PuppetInterview />
+            <CommunityChecklist />
+          </div>
+        </div>
+
         <FaqSection />
-        <CursedInscriptionsSection />
         <FunnyMediaSection />
+
         <LicenseSection />
         <NoCollabSection />
         <LoreSection />
