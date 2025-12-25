@@ -38,7 +38,7 @@ export default function HeroSection() {
             rel="noopener noreferrer"
             className="pixel-border bg-puppet-pink px-3 py-2 text-sm font-bold uppercase inline-block hover:-translate-y-0.5 hover:shadow-press transition"
           >
-            Community-Driven
+            Twitter
           </a>
           <a
             href="https://youtu.be/NwKhK9-Jg20?si=nxixY_iMVben8FQv"
