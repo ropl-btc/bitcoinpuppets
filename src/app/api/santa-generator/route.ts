@@ -2,7 +2,7 @@ import { generateWithGemini } from "@/app/santa-generator/providers/gemini";
 import { generateWithOpenAI } from "@/app/santa-generator/providers/openai";
 
 const PROMPT =
-  "Add the exact Santa hat from the reference image to the character. Replace any existing headwear with the Santa hat. Do not change the character, pose, colors, background, or lighting—only the headwear. Keep the hat’s shape and placement consistent with the reference image.";
+  "Composite the exact Santa hat from the reference image onto the character. If the character already has headwear, remove it and replace it with the Santa hat. Do not stylize, redraw, reshape, or reinterpret the hat—match its exact silhouette, colors, texture, and proportions from the reference. Do not change the character, pose, face, hair, clothing, background, or lighting—only the headwear.";
 const SANTA_HAT_PATH = "/assets/puppets-santa-hat.png";
 
 const getProvider = () => {
