@@ -43,7 +43,7 @@ export default function Home() {
           width={96}
           height={96}
           priority
-          className="pointer-events-none absolute -left-2 top-4 h-24 w-auto rotate-[-8deg] z-[60]"
+          className="pointer-events-none absolute -left-2 top-4 h-24 w-auto rotate-[-8deg] z-60"
         />
         <HeroSection />
         <ClientOnlyStickers />

@@ -5,7 +5,7 @@ export function OpiumOrigins() {
         Opium Origins.mp4
       </div>
       <video
-        className="pixel-border w-full bg-black relative z-[60]"
+        className="pixel-border w-full bg-black relative z-60"
         src="/videos/opiumorigins.mp4"
         controls
         playsInline
@@ -22,7 +22,7 @@ export function PuppetInterview() {
         Puppet Interview.mp4
       </div>
       <video
-        className="pixel-border w-full bg-black relative z-[60]"
+        className="pixel-border w-full bg-black relative z-60"
         src="/videos/interview.mp4"
         controls
         playsInline
