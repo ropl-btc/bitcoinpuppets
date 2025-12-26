@@ -66,9 +66,7 @@ export default function Home() {
         <div className="content-auto">
           <FaqSection />
         </div>
-        <div className="content-auto">
-          <FunnyMediaSection />
-        </div>
+        <FunnyMediaSection />
 
         <div className="content-auto">
           <LicenseSection />
