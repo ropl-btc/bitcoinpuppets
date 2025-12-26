@@ -30,3 +30,11 @@ pnpm preview
 ## Content Context
 
 Bitcoin Puppets is a community-driven, free mint Ordinals collection. The broader lore stems from OPIUM (Ord Puppet Inu Undoxxed Millionaire) and a shared ethos of world peace, memes, and experimental art. This site is designed to celebrate the culture rather than sell a roadmap.
+
+## Static search index
+
+Gallery search uses a prebuilt index stored in `src/data/collections/*.json` to avoid Magic Eden rate limits. Build or refresh the index by running:
+
+```bash
+MAGIC_EDEN_API_KEY=... node scripts/build-magiceden-index.mjs
+```

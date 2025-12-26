@@ -1,10 +1,11 @@
+import { getCollectionIndex } from "@/data/collections";
 import { fetchMagicEdenTokens, isMagicEdenSort } from "@/lib/magicEden";
 import {
   COLLECTIONS,
   COLLECTION_TOTALS,
   DEFAULT_SORT,
   PAGE_SIZE,
-  SEARCH_BATCH_SIZE,
+  SEARCH_MAX_MATCHES,
 } from "./constants";
 import { SearchParams } from "./types";
 import {
@@ -23,54 +24,43 @@ interface SearchCollectionTokensParams {
   query: string;
   page: number;
   pageSize: number;
-  listedOnly: boolean;
 }
 
-// Internal helper for client-side filtering over paginated API
-async function searchCollectionTokens({
+function searchCollectionIndex({
   collection,
   query,
   page,
   pageSize,
-  listedOnly,
 }: SearchCollectionTokensParams) {
-  const desiredOffset = (page - 1) * pageSize;
   const number = extractSearchNumber(query);
-  const totalForCollection = COLLECTION_TOTALS[collection];
-  const totalPages = totalForCollection
-    ? Math.ceil(totalForCollection / SEARCH_BATCH_SIZE)
-    : 1;
-  let matchedCount = 0;
-  let hasNext = false;
-  const results: Token[] = [];
+  const index = getCollectionIndex(collection);
+  const matches: typeof index = [];
+  let capped = false;
 
-  for (let index = 0; index < totalPages; index += 1) {
-    const offset = index * SEARCH_BATCH_SIZE;
-    const { tokens } = await fetchMagicEdenTokens({
-      collectionSymbol: collection,
-      sortBy: "inscriptionNumberAsc",
-      listed: listedOnly ? true : undefined,
-      limit: SEARCH_BATCH_SIZE,
-      offset,
-    });
-
-    for (const token of tokens) {
-      if (!matchesTokenQuery(token, query, number)) continue;
-      matchedCount += 1;
-      if (matchedCount > desiredOffset && results.length < pageSize) {
-        results.push(token);
-      }
-      if (matchedCount > desiredOffset + pageSize) {
-        hasNext = true;
-        break;
-      }
+  for (const token of index) {
+    if (!matchesTokenQuery(token, query, number)) continue;
+    matches.push(token);
+    if (matches.length >= SEARCH_MAX_MATCHES) {
+      capped = true;
+      break;
     }
-
-    if (hasNext) break;
-    if (tokens.length < SEARCH_BATCH_SIZE) break;
   }
 
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+  const results = matches.slice(start, end);
+  const hasNext = capped ? end < SEARCH_MAX_MATCHES : matches.length > end;
+
   return { results, hasNext };
+}
+
+function orderTokensById(tokens: Token[], order: string[]) {
+  const ordering = new Map(order.map((id, index) => [id, index]));
+  return [...tokens].sort((a, b) => {
+    const aIndex = ordering.get(a.id) ?? Number.MAX_SAFE_INTEGER;
+    const bIndex = ordering.get(b.id) ?? Number.MAX_SAFE_INTEGER;
+    return aIndex - bIndex;
+  });
 }
 
 export async function getGalleryData(searchParams: SearchParams | undefined) {
@@ -110,19 +100,37 @@ export async function getGalleryData(searchParams: SearchParams | undefined) {
         limit: PAGE_SIZE,
       });
       tokens = response.tokens;
+      if (listedOnly) {
+        tokens = tokens.filter((token) => token.listed);
+      }
       hasSearchMatch = tokens.length > 0;
       nextPage = null;
     } else if (query) {
-      const response = await searchCollectionTokens({
+      const response = searchCollectionIndex({
         collection,
         query,
         page,
         pageSize: PAGE_SIZE,
-        listedOnly,
       });
-      tokens = response.results;
-      hasSearchMatch = tokens.length > 0;
-      nextPage = response.hasNext ? page + 1 : null;
+      const tokenIds = response.results.map((token) => token.id);
+
+      if (tokenIds.length === 0) {
+        tokens = [];
+        hasSearchMatch = false;
+        nextPage = null;
+      } else {
+        const apiResponse = await fetchMagicEdenTokens({
+          collectionSymbol: collection,
+          tokenIds: tokenIds.join(","),
+          limit: PAGE_SIZE,
+        });
+        tokens = orderTokensById(apiResponse.tokens, tokenIds);
+        if (listedOnly) {
+          tokens = tokens.filter((token) => token.listed);
+        }
+        hasSearchMatch = tokens.length > 0;
+        nextPage = response.hasNext ? page + 1 : null;
+      }
     } else {
       const response = await fetchMagicEdenTokens({
         collectionSymbol: collection,

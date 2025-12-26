@@ -9,7 +9,7 @@ export const DEFAULT_COLLECTION = "bitcoin-puppets";
 export const DEFAULT_SORT = MAGIC_EDEN_SORT_OPTIONS[2]?.value ?? "priceAsc";
 export const DEFAULT_PAGE = 1;
 export const PAGE_SIZE = 20;
-export const SEARCH_BATCH_SIZE = 100;
+export const SEARCH_MAX_MATCHES = 500;
 
 export const COLLECTION_TOTALS: Record<string, number> = {
   "bitcoin-puppets": 10001,

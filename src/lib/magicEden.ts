@@ -93,7 +93,7 @@ export async function fetchMagicEdenTokens(params: MagicEdenTokensParams) {
       Authorization: `Bearer ${apiKey}`,
       Accept: "application/json",
     },
-    next: { revalidate: 60 },
+    next: { revalidate: 300 },
   });
 
   const json = (await response.json()) as MagicEdenTokensResponse & {
