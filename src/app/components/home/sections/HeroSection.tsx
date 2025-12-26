@@ -22,7 +22,7 @@ export default function HeroSection() {
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href="/gallery"
-            className="pixel-border bg-puppet-blue px-3 py-2 text-sm font-bold uppercase inline-block hover:-translate-y-0.5 hover:shadow-press transition"
+            className="pixel-border bg-puppet-blue-light px-3 py-2 text-sm font-bold uppercase inline-block hover:-translate-y-0.5 hover:shadow-press transition"
           >
             Gallery
           </Link>

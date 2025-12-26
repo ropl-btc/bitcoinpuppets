@@ -20,6 +20,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-comic: var(--font-comic);
+  --color-puppet-blue-light: #8fd6ff;
 }
 
 @media (prefers-color-scheme: dark) {
