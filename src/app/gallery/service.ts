@@ -111,6 +111,28 @@ export async function getGalleryData(searchParams: SearchParams | undefined) {
             "Failed to fetch Magic Eden stats for Liquidium floor price:",
             statsError,
           );
+
+          try {
+            const { tokens } = await fetchMagicEdenTokens({
+              collectionSymbol: "bitcoin-puppets",
+              sortBy: "priceAsc",
+              listed: true,
+              limit: 1,
+            });
+
+            const lowest = tokens.find(
+              (token) => typeof token.listedPrice === "number",
+            );
+
+            if (typeof lowest?.listedPrice === "number") {
+              floorPrice = lowest.listedPrice;
+            }
+          } catch (fallbackError) {
+            console.warn(
+              "Failed to fetch Magic Eden tokens for Liquidium floor price:",
+              fallbackError,
+            );
+          }
         }
 
         return {
