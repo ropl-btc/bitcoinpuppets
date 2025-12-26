@@ -9,11 +9,16 @@ import { GalleryMetadataProps, GalleryPageProps } from "./types";
 import { getParam, resolveCollection } from "./utils"; // Re-export isMagicEdenSort from utils if needed OR import from lib
 import { isMagicEdenSort } from "@/lib/magicEden";
 
+import LiquidiumGallery from "./LiquidiumGallery";
+
 export default async function GalleryPage({ searchParams }: GalleryPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
 
+  const data = await getGalleryData(resolvedSearchParams);
+
   const {
     tokens,
+    loans = [],
     activeCollection,
     pagination: {
       page,
@@ -26,7 +31,8 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
     errorMessage,
     hasSearchMatch,
     filters: { collection, sortBy, listedOnly, query },
-  } = await getGalleryData(resolvedSearchParams);
+    floorPrice,
+  } = data;
 
   return (
     <div className="relative min-h-screen pb-20">
@@ -55,8 +61,9 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
             {activeCollection?.label ?? "Gallery"} Gallery
           </div>
           <p className="text-sm leading-relaxed">
-            Pulling live ordinals data from Magic Eden. Use the controls to
-            sort, filter, and inspect each puppet up close.
+            {collection === "liquidium"
+              ? "Pulling all active Bitcoin Puppets loans from Liquidium.WTF. Filter by duration and sort by amount or date."
+              : "Pulling live ordinals data from Magic Eden. Use the controls to sort, filter, and inspect each puppet up close."}
           </p>
         </section>
 
@@ -71,10 +78,16 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
           <div className="window-titlebar mb-4 flex items-center justify-between px-3 py-2 text-sm font-bold uppercase">
             <span>Results</span>
             <span className="text-xs">
-              Page {page}
-              {totalPages ? ` of ${totalPages}` : ""}
-              {listedOnly ? " · Listed" : ""}
-              {query ? " · Search" : ""}
+              {collection === "liquidium" ? (
+                `Showing all ${loans.length} active loans`
+              ) : (
+                <>
+                  Page {page}
+                  {totalPages ? ` of ${totalPages}` : ""}
+                  {listedOnly ? " · Listed" : ""}
+                  {query ? " · Search" : ""}
+                </>
+              )}
             </span>
           </div>
           {query ? (
@@ -99,6 +112,8 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
             <div className="pixel-border bg-puppet-pink px-4 py-3 text-sm font-bold uppercase text-black">
               {errorMessage}
             </div>
+          ) : collection === "liquidium" ? (
+            <LiquidiumGallery loans={loans} floorPrice={floorPrice} />
           ) : tokens.length ? (
             <GalleryGrid
               tokens={tokens}
@@ -112,19 +127,24 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
             </div>
           )}
 
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-            <div className="text-xs font-bold uppercase">
-              Showing {tokens.length} items
+          {collection !== "liquidium" && (
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+              <div className="text-xs font-bold uppercase">
+                Showing {tokens.length} items
+              </div>
             </div>
-          </div>
-          <GalleryPagination
-            baseQuery={baseQuery}
-            page={page}
-            hasNext={Boolean(nextPage)}
-            hasPrev={Boolean(previousPage)}
-            lastPage={lastPage}
-            totalPages={totalPages}
-          />
+          )}
+
+          {collection !== "liquidium" && (
+            <GalleryPagination
+              baseQuery={baseQuery}
+              page={page}
+              hasNext={Boolean(nextPage)}
+              hasPrev={Boolean(previousPage)}
+              lastPage={lastPage}
+              totalPages={totalPages}
+            />
+          )}
         </section>
       </main>
     </div>

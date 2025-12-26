@@ -1,6 +1,5 @@
 # features:
 
-- display active puppets loans from liquidium somewhere
 - diplay magic eden last sales somewhere
 - place stickers a bit better by default
 - navbar with quick links?

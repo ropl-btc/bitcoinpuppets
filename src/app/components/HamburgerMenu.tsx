@@ -15,7 +15,10 @@ const LINKS = [
     name: "Feedback",
     href: "https://github.com/ropl-btc/bitcoinpuppets/issues",
   },
-  { name: "Liquidium.WTF", href: "https://liquidium.wtf" },
+  {
+    name: "Liquidium.WTF",
+    href: "https://app.liquidium.wtf/borrow/ordinals",
+  },
 ];
 
 export default function HamburgerMenu() {
@@ -32,7 +35,9 @@ export default function HamburgerMenu() {
             setActiveLoans(result.activeCount);
           }
         })
-        .catch((err) => console.error("Failed to fetch Liquidium stats", err));
+        .catch((err) =>
+          console.error("Failed to fetch Liquidium.WTF stats", err),
+        );
     }
   }, [isOpen, activeLoans]);
 

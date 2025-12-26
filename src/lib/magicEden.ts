@@ -64,6 +64,30 @@ function getApiKey() {
   return apiKey;
 }
 
+export async function fetchMagicEdenCollectionStats(collectionSymbol: string) {
+  const apiKey = getApiKey();
+  const url = `${MAGIC_EDEN_BASE_URL}/stat?collectionSymbol=${collectionSymbol}`;
+
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      Accept: "application/json",
+    },
+    next: { revalidate: 300 },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch collection stats from Magic Eden.");
+  }
+
+  return (await response.json()) as {
+    floorPrice: number;
+    totalVolume: number;
+    owners: number;
+    pendingTransactions: number;
+  };
+}
+
 export async function fetchMagicEdenTokens(params: MagicEdenTokensParams) {
   const apiKey = getApiKey();
   const limit = clampLimit(params.limit);

@@ -1,5 +1,10 @@
 import { getCollectionIndex } from "@/data/collections";
-import { fetchMagicEdenTokens, isMagicEdenSort } from "@/lib/magicEden";
+import type { LiquidiumLoan } from "@/lib/liquidium";
+import {
+  fetchMagicEdenCollectionStats,
+  fetchMagicEdenTokens,
+  isMagicEdenSort,
+} from "@/lib/magicEden";
 import {
   COLLECTIONS,
   COLLECTION_TOTALS,
@@ -93,6 +98,48 @@ export async function getGalleryData(searchParams: SearchParams | undefined) {
       : undefined;
 
   try {
+    if (collection === "liquidium") {
+      try {
+        const { fetchLiquidiumActiveLoans } = await import("@/lib/liquidium");
+        const loans = await fetchLiquidiumActiveLoans();
+        let floorPrice: number | null = null;
+
+        try {
+          const stats = await fetchMagicEdenCollectionStats("bitcoin-puppets");
+          floorPrice = stats.floorPrice;
+        } catch (statsError) {
+          console.warn(
+            "Failed to fetch Magic Eden stats for Liquidium floor price:",
+            statsError,
+          );
+        }
+
+        return {
+          tokens: [], // Not used for liquidium
+          loans,
+          floorPrice,
+          collection,
+          activeCollection,
+          sortBy,
+          listedOnly,
+          query: "",
+          filters: { collection, sortBy, listedOnly, query: "" },
+          pagination: {
+            page: 1,
+            nextPage: null,
+            previousPage: null,
+            lastPage: 1,
+            totalPages: 1,
+            baseQuery: "",
+          },
+          errorMessage: null,
+          hasSearchMatch: true,
+        };
+      } catch {
+        throw new Error("Failed to load Liquidium data");
+      }
+    }
+
     if (query && tokenIdsParam) {
       const response = await fetchMagicEdenTokens({
         collectionSymbol: collection,
@@ -162,6 +209,7 @@ export async function getGalleryData(searchParams: SearchParams | undefined) {
 
   return {
     tokens,
+    loans: [] as LiquidiumLoan[],
     collection,
     activeCollection,
     sortBy,
@@ -183,5 +231,6 @@ export async function getGalleryData(searchParams: SearchParams | undefined) {
     },
     errorMessage,
     hasSearchMatch,
+    floorPrice: null as number | null,
   };
 }
