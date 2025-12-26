@@ -64,7 +64,7 @@ export default function HamburgerMenu() {
   }, [isOpen]);
 
   return (
-    <div className="hamburger-container fixed top-6 right-4 z-100">
+    <div className="hamburger-container fixed top-6 right-4 z-[100]">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="pixel-border bg-white p-1.5 hover:bg-gray-100 transition-colors shadow-none active:translate-y-0.5"

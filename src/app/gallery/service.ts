@@ -1,5 +1,5 @@
 import { getCollectionIndex } from "@/data/collections";
-import type { LiquidiumLoan } from "@/lib/liquidium";
+import { fetchLiquidiumActiveLoans, type LiquidiumLoan } from "@/lib/liquidium";
 import {
   fetchMagicEdenCollectionStats,
   fetchMagicEdenTokens,
@@ -100,7 +100,6 @@ export async function getGalleryData(searchParams: SearchParams | undefined) {
   try {
     if (collection === "liquidium") {
       try {
-        const { fetchLiquidiumActiveLoans } = await import("@/lib/liquidium");
         const loans = await fetchLiquidiumActiveLoans();
         let floorPrice: number | null = null;
 
@@ -122,8 +121,8 @@ export async function getGalleryData(searchParams: SearchParams | undefined) {
           activeCollection,
           sortBy,
           listedOnly,
-          query: "",
-          filters: { collection, sortBy, listedOnly, query: "" },
+          query,
+          filters: { collection, sortBy, listedOnly, query },
           pagination: {
             page: 1,
             nextPage: null,
@@ -135,8 +134,10 @@ export async function getGalleryData(searchParams: SearchParams | undefined) {
           errorMessage: null,
           hasSearchMatch: true,
         };
-      } catch {
-        throw new Error("Failed to load Liquidium data");
+      } catch (error) {
+        console.error("Failed to load Liquidium data:", error);
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`Failed to load Liquidium data: ${message}`);
       }
     }
 

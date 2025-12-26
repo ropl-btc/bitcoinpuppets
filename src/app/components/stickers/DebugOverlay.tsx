@@ -67,7 +67,7 @@ export const DebugOverlay = ({
   };
 
   return (
-    <div className="pointer-events-auto fixed bottom-4 right-4 z-999 max-w-[90vw] bg-[#f7f0d2] text-[11px] text-black pixel-border">
+    <div className="pointer-events-auto fixed bottom-4 right-4 z-[999] max-w-[90vw] bg-[#f7f0d2] text-[11px] text-black pixel-border">
       <div className="flex items-center justify-between gap-2 border-b-2 border-black px-2 py-1">
         <span className="font-bold">
           Sticker coords ({isMobile ? "Mobile" : "Desktop"})

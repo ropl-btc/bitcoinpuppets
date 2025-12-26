@@ -102,7 +102,7 @@ export default function GalleryGrid({
 
       {selected ? (
         <div
-          className="fixed inset-0 z-80 flex items-center justify-center bg-black/70 px-4 py-8"
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/70 px-4 py-8"
           onClick={() => setSelected(null)}
         >
           <div

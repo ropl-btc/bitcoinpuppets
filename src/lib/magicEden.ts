@@ -66,7 +66,9 @@ function getApiKey() {
 
 export async function fetchMagicEdenCollectionStats(collectionSymbol: string) {
   const apiKey = getApiKey();
-  const url = `${MAGIC_EDEN_BASE_URL}/stat?collectionSymbol=${collectionSymbol}`;
+  const url = `${MAGIC_EDEN_BASE_URL}/stat?${new URLSearchParams({
+    collectionSymbol,
+  }).toString()}`;
 
   const response = await fetch(url, {
     headers: {
@@ -77,15 +79,46 @@ export async function fetchMagicEdenCollectionStats(collectionSymbol: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch collection stats from Magic Eden.");
+    let bodyText = "";
+    try {
+      bodyText = await response.text();
+    } catch {
+      bodyText = "";
+    }
+    throw new Error(
+      `Failed to fetch collection stats from Magic Eden (${response.status} ${response.statusText})${bodyText ? `: ${bodyText}` : ""}`,
+    );
   }
 
-  return (await response.json()) as {
+  const data = (await response.json()) as {
     floorPrice: number;
     totalVolume: number;
     owners: number;
     pendingTransactions: number;
   };
+
+  if (typeof data.floorPrice !== "number") {
+    throw new Error(
+      "Invalid Magic Eden stats: floorPrice is missing or not a number.",
+    );
+  }
+  if (typeof data.totalVolume !== "number") {
+    throw new Error(
+      "Invalid Magic Eden stats: totalVolume is missing or not a number.",
+    );
+  }
+  if (typeof data.owners !== "number") {
+    throw new Error(
+      "Invalid Magic Eden stats: owners is missing or not a number.",
+    );
+  }
+  if (typeof data.pendingTransactions !== "number") {
+    throw new Error(
+      "Invalid Magic Eden stats: pendingTransactions is missing or not a number.",
+    );
+  }
+
+  return data;
 }
 
 export async function fetchMagicEdenTokens(params: MagicEdenTokensParams) {
