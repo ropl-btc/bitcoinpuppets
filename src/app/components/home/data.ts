@@ -5,7 +5,7 @@ export const links: LinkItem[] = [
     label: "Santa Generator",
     href: "/santa-generator",
     note: "Puppetize your holiday vibe with Santa hats.",
-    iconUrl: "/assets/puppet-santa.png",
+    iconUrl: "/assets/puppet-santa.avif",
   },
   {
     label: "Magic Eden Marketplace",

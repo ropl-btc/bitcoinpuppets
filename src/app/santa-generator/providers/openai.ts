@@ -18,7 +18,7 @@ export async function generateWithOpenAI(
   openaiForm.append("size", OUTPUT_SIZE);
   openaiForm.append("quality", OUTPUT_QUALITY);
   openaiForm.append("image[]", input.puppet, input.puppet.name || "puppet.png");
-  openaiForm.append("image[]", input.santaHat, "puppets-santa-hat.png");
+  openaiForm.append("image[]", input.santaHat, "puppets-santa-hat.webp");
 
   const openaiResponse = await fetch(OPENAI_ENDPOINT, {
     method: "POST",

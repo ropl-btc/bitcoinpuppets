@@ -101,6 +101,8 @@ export const metadata: Metadata = {
   manifest: "/favicons/site.webmanifest",
 };
 
+import HamburgerMenu from "./components/HamburgerMenu";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -108,7 +110,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-comic">{children}</body>
+      <body className="font-comic relative">
+        <HamburgerMenu />
+        {children}
+      </body>
     </html>
   );
 }

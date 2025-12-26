@@ -3,7 +3,7 @@ import { generateWithOpenAI } from "@/app/santa-generator/providers/openai";
 
 const PROMPT =
   "Add the exact Santa hat from the reference image onto the character. If the character already has headwear, replace the headwear with the Santa hat. Do not stylize, redraw, reshape, or reinterpret the hat—keep its exact silhouette, colors, texture, and proportions from the reference. Do not change anything but the headwear.";
-const SANTA_HAT_PATH = "/assets/puppets-santa-hat.png";
+const SANTA_HAT_PATH = "/assets/puppets-santa-hat.webp";
 
 const getProvider = () => {
   const provider = process.env.IMAGE_PROVIDER?.toLowerCase().trim();
@@ -49,8 +49,8 @@ export async function POST(request: Request) {
   }
 
   const hatBlob = await hatResponse.blob();
-  const hatFile = new File([hatBlob], "puppets-santa-hat.png", {
-    type: hatBlob.type || "image/png",
+  const hatFile = new File([hatBlob], "puppets-santa-hat.webp", {
+    type: hatBlob.type || "image/webp",
   });
 
   try {

@@ -60,7 +60,7 @@ export default function SantaGeneratorPage() {
             </div>
             <div className="bg-black p-3 border-4 border-black">
               <Image
-                src="/assets/puppets-santa-hat.png"
+                src="/assets/puppets-santa-hat.webp"
                 alt="Bitcoin Puppets Santa hat reference"
                 width={512}
                 height={512}
