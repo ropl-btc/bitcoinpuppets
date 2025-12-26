@@ -68,7 +68,7 @@ export const useDraggableStickers = () => {
       element.style.setProperty("--x", `${x}px`);
       element.style.setProperty("--y", `${y}px`);
     },
-    []
+    [],
   );
 
   const onPointerMove = useCallback(
@@ -87,7 +87,7 @@ export const useDraggableStickers = () => {
         event.pageX - containerLeft - offsetRef.current.x,
         sticker.height,
         viewportWidth,
-        containerLeft
+        containerLeft,
       );
       const nextY = event.pageY - offsetRef.current.y;
 
@@ -109,7 +109,7 @@ export const useDraggableStickers = () => {
         applyPositionToElement(activeElement, pending.x, pending.y);
       });
     },
-    [applyPositionToElement]
+    [applyPositionToElement],
   );
 
   const onPointerUp = useCallback(() => {
@@ -154,7 +154,7 @@ export const useDraggableStickers = () => {
               prev,
               isMobileNow,
               viewportWidthRef.current,
-              containerLeftNow
+              containerLeftNow,
             )
         ).map((sticker) => ({
           ...sticker,
@@ -162,9 +162,9 @@ export const useDraggableStickers = () => {
             sticker.x,
             sticker.height,
             viewportWidthRef.current,
-            containerLeftNow
+            containerLeftNow,
           ),
-        }))
+        })),
       );
     };
 
@@ -188,14 +188,14 @@ export const useDraggableStickers = () => {
 
   const handlePointerDown = (
     event: React.PointerEvent<HTMLImageElement>,
-    sticker: Sticker
+    sticker: Sticker,
   ) => {
     event.preventDefault();
     const element = event.currentTarget.closest("a");
     if (!(element instanceof HTMLAnchorElement)) return;
 
     const index = stickersRef.current.findIndex(
-      (item) => item.id === sticker.id
+      (item) => item.id === sticker.id,
     );
 
     dragIndexRef.current = index >= 0 ? index : null;

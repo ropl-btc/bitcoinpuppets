@@ -9,7 +9,7 @@ const toBase64 = async (file: File) => {
 };
 
 export async function generateWithGemini(
-  input: SantaHatInput
+  input: SantaHatInput,
 ): Promise<SantaHatResult> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {

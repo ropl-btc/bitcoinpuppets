@@ -73,7 +73,7 @@ export async function getGalleryData(searchParams: SearchParams | undefined) {
   const offset = (page - 1) * PAGE_SIZE;
 
   const activeCollection = COLLECTIONS.find(
-    (item) => item.symbol === collection
+    (item) => item.symbol === collection,
   );
 
   let tokens: Token[] = [];

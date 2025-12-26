@@ -29,7 +29,7 @@ export default function GalleryControls({
 
   const currentParams = useMemo(
     () => new URLSearchParams(searchParams.toString()),
-    [searchParams]
+    [searchParams],
   );
 
   const updateParams = (updates: Record<string, string | undefined>) => {
@@ -63,9 +63,7 @@ export default function GalleryControls({
               type="button"
               onClick={() => updateParams({ collection: item.value })}
               className={`pixel-border px-3 py-2 text-xs font-bold uppercase transition hover:-translate-y-0.5 hover:shadow-press ${
-                active
-                  ? "bg-puppet-pink text-black"
-                  : "bg-white text-black"
+                active ? "bg-puppet-pink text-black" : "bg-white text-black"
               }`}
             >
               {item.label}
@@ -97,7 +95,9 @@ export default function GalleryControls({
             type="checkbox"
             checked={listedOnly}
             onChange={(event) =>
-              updateParams({ listed: event.target.checked ? "true" : undefined })
+              updateParams({
+                listed: event.target.checked ? "true" : undefined,
+              })
             }
             className="h-4 w-4"
           />

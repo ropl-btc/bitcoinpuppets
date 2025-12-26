@@ -35,7 +35,7 @@ export const DebugOverlay = ({
         text = `{ id: "${sticker.id}", mobileLeft: ${x}, mobileY: ${y} }`;
       } else {
         const mobileRight = Math.round(
-          viewportWidth - containerLeft - sticker.height - sticker.x
+          viewportWidth - containerLeft - sticker.height - sticker.x,
         );
         text = `{ id: "${sticker.id}", mobileRight: ${mobileRight}, mobileY: ${y} }`;
       }
@@ -55,7 +55,7 @@ export const DebugOverlay = ({
             return `\t{ id: "${sticker.id}", mobileLeft: ${x}, mobileY: ${y} },`;
           } else {
             const mobileRight = Math.round(
-              viewportWidth - containerLeft - sticker.height - sticker.x
+              viewportWidth - containerLeft - sticker.height - sticker.x,
             );
             return `\t{ id: "${sticker.id}", mobileRight: ${mobileRight}, mobileY: ${y} },`;
           }

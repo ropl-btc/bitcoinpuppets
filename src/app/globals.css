@@ -10,8 +10,9 @@
   --win-purple: #6b5cff;
   --win-gray: #c9c9c9;
   --win-shadow: #222222;
-  --font-comic: "Comic Sans MS", "Comic Sans", "Comic Neue", "Chalkboard SE",
-    "Marker Felt", "Trebuchet MS", sans-serif;
+  --font-comic:
+    "Comic Sans MS", "Comic Sans", "Comic Neue", "Chalkboard SE", "Marker Felt",
+    "Trebuchet MS", sans-serif;
 }
 
 @theme inline {
@@ -84,7 +85,9 @@ canvas {
 
 html,
 body {
-  cursor: url("/sym46.avif") 18 10, crosshair !important;
+  cursor:
+    url("/sym46.avif") 18 10,
+    crosshair !important;
   min-height: 100%;
 }
 
@@ -101,7 +104,9 @@ body {
 a,
 button,
 summary {
-  cursor: url("/sym46.avif") 18 10, crosshair !important;
+  cursor:
+    url("/sym46.avif") 18 10,
+    crosshair !important;
 }
 
 ::selection {

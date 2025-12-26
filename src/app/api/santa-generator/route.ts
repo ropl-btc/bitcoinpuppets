@@ -28,14 +28,14 @@ export async function POST(request: Request) {
   if (!(puppet instanceof File)) {
     return jsonResponse(
       { error: "Missing puppet image upload." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!puppet.type.startsWith("image/")) {
     return jsonResponse(
       { error: "Upload must be an image file." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
   if (!hatResponse.ok) {
     return jsonResponse(
       { error: "Failed to load the Santa hat reference image." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 

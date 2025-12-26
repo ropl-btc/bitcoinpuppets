@@ -136,7 +136,7 @@ export async function generateMetadata({
 }: GalleryMetadataProps): Promise<Metadata> {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const collection = resolveCollection(
-    getParam(resolvedSearchParams, "collection")
+    getParam(resolvedSearchParams, "collection"),
   );
   const sortByParam = getParam(resolvedSearchParams, "sortBy");
   const sortBy = isMagicEdenSort(sortByParam) ? sortByParam : DEFAULT_SORT;
@@ -149,7 +149,7 @@ export async function generateMetadata({
   const { COLLECTIONS } = await import("./constants");
 
   const activeCollection = COLLECTIONS.find(
-    (item) => item.symbol === collection
+    (item) => item.symbol === collection,
   );
 
   const title = `${activeCollection?.label ?? "Gallery"} Gallery`;

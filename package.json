@@ -16,14 +16,14 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
     "prepare": "node .husky/install.mjs"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --max-warnings=0 --fix"
-    ],
-    "*": [
-      "secretlint"
-    ]
-  },
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx}": [
+			"eslint --max-warnings=0 --no-warn-ignored --fix"
+		],
+		"*": [
+			"secretlint"
+		]
+	},
   "dependencies": {
     "@opennextjs/cloudflare": "^1.14.7",
     "next": "15.5.9",
@@ -41,6 +41,7 @@
     "eslint-config-next": "15.5.9",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4",
     "secretlint": "^11.2.5",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",

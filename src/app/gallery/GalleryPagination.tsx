@@ -46,7 +46,9 @@ export default function GalleryPagination({
     });
   };
 
-  const pageLabel = totalPages ? `Page ${page} of ${totalPages}` : `Page ${page}`;
+  const pageLabel = totalPages
+    ? `Page ${page} of ${totalPages}`
+    : `Page ${page}`;
 
   return (
     <div className="mt-6 flex flex-wrap items-center justify-between gap-4">

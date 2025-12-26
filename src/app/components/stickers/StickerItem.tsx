@@ -5,7 +5,7 @@ interface StickerItemProps {
   sticker: Sticker;
   onPointerDown: (
     event: React.PointerEvent<HTMLImageElement>,
-    sticker: Sticker
+    sticker: Sticker,
   ) => void;
   onClick: (event: React.MouseEvent, sticker: Sticker) => void;
 }

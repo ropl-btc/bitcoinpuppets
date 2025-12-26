@@ -91,7 +91,7 @@ export default function GalleryGrid({
           </button>
         );
       }),
-    [tokens]
+    [tokens],
   );
 
   return (

@@ -48,7 +48,7 @@ export function extractSearchNumber(query: string) {
 export function matchesTokenQuery(
   token: { id: string; displayName?: string; inscriptionNumber: number },
   query: string,
-  number: number | null
+  number: number | null,
 ) {
   const normalized = normalizeQuery(query);
   if (!normalized) return false;

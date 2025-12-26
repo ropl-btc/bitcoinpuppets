@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 type FunnyMediaGalleryProps = {
   sources: string[];
@@ -16,20 +16,20 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
     if (!selectedSrc) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         setSelectedSrc(null);
       }
     };
 
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [selectedSrc]);
 
   useEffect(() => {
     if (isActive) return;
     const element = containerRef.current;
     if (!element) return;
-    if (!('IntersectionObserver' in window)) {
+    if (!("IntersectionObserver" in window)) {
       setIsActive(true);
       return;
     }
@@ -40,7 +40,7 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
           observer.disconnect();
         }
       },
-      { rootMargin: '200px' }
+      { rootMargin: "200px" },
     );
     observer.observe(element);
     return () => observer.disconnect();

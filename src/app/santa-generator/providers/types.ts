@@ -9,5 +9,5 @@ export type SantaHatResult = {
 };
 
 export type SantaHatProvider = (
-  input: SantaHatInput
+  input: SantaHatInput,
 ) => Promise<SantaHatResult>;

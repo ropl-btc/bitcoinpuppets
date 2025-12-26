@@ -5,7 +5,7 @@ const OUTPUT_SIZE = "1024x1024";
 const OUTPUT_QUALITY = "low";
 
 export async function generateWithOpenAI(
-  input: SantaHatInput
+  input: SantaHatInput,
 ): Promise<SantaHatResult> {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
