@@ -37,6 +37,13 @@ function getTimeRemaining(acceptedDate: string, durationDays: number) {
   return `${mins}m left`;
 }
 
+const DURATION_COLOR_CLASS: Record<number, string> = {
+  5: "bg-puppet-yellow",
+  10: "bg-puppet-green",
+  16: "bg-puppet-pink",
+  30: "bg-puppet-purple",
+};
+
 export default function LiquidiumGallery({
   loans,
   floorPrice,
@@ -159,7 +166,11 @@ export default function LiquidiumGallery({
               className="pixel-border flex flex-col gap-3 bg-white p-4 transition hover:shadow-press"
             >
               <div className="flex items-center justify-between border-b-2 border-black/10 pb-2">
-                <span className="pixel-border bg-puppet-pink px-2 py-0.5 text-[10px] font-bold uppercase">
+                <span
+                  className={`pixel-border px-2 py-0.5 text-[10px] font-bold uppercase text-black ${
+                    DURATION_COLOR_CLASS[loan.duration] ?? "bg-puppet-blue"
+                  }`}
+                >
                   {loan.duration} Day Loan
                 </span>
                 <span
@@ -208,7 +219,7 @@ export default function LiquidiumGallery({
                   href={`https://app.liquidium.wtf/borrow/ordinals`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="pixel-border block w-full bg-black py-2.5 text-center text-xs font-bold uppercase text-white transition hover:bg-white hover:text-black border-2 border-transparent hover:border-black"
+                  className="pixel-border block w-full bg-puppet-blue-light py-2.5 text-center text-xs font-bold uppercase text-black transition hover:bg-white hover:text-black border-2 border-transparent hover:border-black"
                 >
                   View on Liquidium.WTF
                 </a>
