@@ -60,6 +60,16 @@ export default function SiteFooter() {
           GitHub
         </a>
       </div>
+      <div className="pixel-border bg-white/90 px-4 py-3 text-xs font-bold uppercase text-black">
+        <a
+          href="https://github.com/ropl-btc/bitcoinpuppets/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          Submit Feedback, Bugs, and Ideas
+        </a>
+      </div>
       <div className="text-xs text-black/70">
         This is a community-led hub. Not financial advice. Just vibes.
       </div>

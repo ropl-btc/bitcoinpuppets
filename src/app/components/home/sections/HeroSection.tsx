@@ -53,7 +53,7 @@ export default function HeroSection() {
 
       <div className="pixel-border bg-white/90 p-3 text-black">
         <div className="window-titlebar flex items-center justify-between px-3 py-2">
-          <span className="text-sm font-bold uppercase">Bulla.gif</span>
+          <span className="text-sm font-bold uppercase">Bulla.webp</span>
         </div>
         <div className="bg-white p-3">
           <a
@@ -63,7 +63,7 @@ export default function HeroSection() {
             className="block"
           >
             <Image
-              src="/bulla.gif"
+              src="/bulla.webp"
               alt="Bitcoin Puppets bulla preview"
               width={640}
               height={640}

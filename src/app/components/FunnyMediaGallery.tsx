@@ -12,18 +12,6 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
   const [isActive, setIsActive] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const createProxyUrl = (
-    src: string,
-    options: { w?: number; h?: number; q?: number; fit?: string }
-  ) => {
-    const params = new URLSearchParams({ src });
-    if (options.w) params.set('w', String(options.w));
-    if (options.h) params.set('h', String(options.h));
-    if (options.q) params.set('q', String(options.q));
-    if (options.fit) params.set('fit', options.fit);
-    return `/api/image?${params.toString()}`;
-  };
-
   useEffect(() => {
     if (!selectedSrc) return;
 
@@ -72,7 +60,7 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
               >
                 <div className="relative aspect-square w-full">
                   <Image
-                    src={createProxyUrl(src, { w: 320, h: 320, q: 70, fit: 'contain' })}
+                    src={src}
                     alt="Funny puppet media"
                     fill
                     sizes="(min-width: 1024px) 200px, (min-width: 640px) 160px, 120px"
@@ -119,7 +107,7 @@ export default function FunnyMediaGallery({ sources }: FunnyMediaGalleryProps) {
             <div className="pixel-border bg-white p-3">
               <div className="relative h-[60vh] max-h-[calc(100vh-14rem)] w-full max-w-[85vw] sm:h-[70vh]">
                 <Image
-                  src={createProxyUrl(selectedSrc, { w: 1400, h: 1400, q: 80, fit: 'contain' })}
+                  src={selectedSrc}
                   alt="Funny puppet media enlarged"
                   fill
                   sizes="85vw"

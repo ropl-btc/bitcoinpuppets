@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import DraggableStickers from "./components/DraggableStickers";
+import ClientOnlyStickers from "./components/ClientOnlyStickers";
 import {
   CommunityChecklist,
   CursedInscriptionsSection,
@@ -45,8 +45,8 @@ export default function Home() {
           priority
           className="pointer-events-none absolute -left-2 top-4 h-24 w-auto rotate-[-8deg] z-[60]"
         />
-        <DraggableStickers />
         <HeroSection />
+        <ClientOnlyStickers />
         <ManifestoSection />
 
         <div className="grid gap-4 lg:grid-cols-2 items-start">
