@@ -90,35 +90,28 @@ export async function fetchMagicEdenCollectionStats(collectionSymbol: string) {
     );
   }
 
-  const data = (await response.json()) as {
-    floorPrice: number;
-    totalVolume: number;
-    owners: number;
-    pendingTransactions: number;
+  const data = (await response.json()) as Record<string, unknown>;
+
+  const parseNumberField = (field: string) => {
+    const value = data[field];
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return value;
+    }
+    if (typeof value === "string" && value.trim() !== "") {
+      const parsed = Number(value);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+    throw new Error(
+      `Invalid Magic Eden stats: ${field} is missing or not a number.`,
+    );
   };
 
-  if (typeof data.floorPrice !== "number") {
-    throw new Error(
-      "Invalid Magic Eden stats: floorPrice is missing or not a number.",
-    );
-  }
-  if (typeof data.totalVolume !== "number") {
-    throw new Error(
-      "Invalid Magic Eden stats: totalVolume is missing or not a number.",
-    );
-  }
-  if (typeof data.owners !== "number") {
-    throw new Error(
-      "Invalid Magic Eden stats: owners is missing or not a number.",
-    );
-  }
-  if (typeof data.pendingTransactions !== "number") {
-    throw new Error(
-      "Invalid Magic Eden stats: pendingTransactions is missing or not a number.",
-    );
-  }
-
-  return data;
+  return {
+    floorPrice: parseNumberField("floorPrice"),
+    totalVolume: parseNumberField("totalVolume"),
+    owners: parseNumberField("owners"),
+    pendingTransactions: parseNumberField("pendingTransactions"),
+  };
 }
 
 export async function fetchMagicEdenTokens(params: MagicEdenTokensParams) {
