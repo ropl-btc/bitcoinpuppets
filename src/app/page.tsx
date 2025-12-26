@@ -49,26 +49,40 @@ export default function Home() {
         <ClientOnlyStickers />
         <ManifestoSection />
 
-        <div className="grid gap-4 lg:grid-cols-2 items-start">
-          <div className="flex flex-col gap-4">
-            <QuickLinksSection />
-            <CursedInscriptionsSection />
-          </div>
-          <div className="flex flex-col gap-4">
-            <OpiumOrigins />
-            <PuppetInterview />
-            <CommunityChecklist />
+        <div className="content-auto">
+          <div className="grid gap-4 lg:grid-cols-2 items-start">
+            <div className="flex flex-col gap-4">
+              <QuickLinksSection />
+              <CursedInscriptionsSection />
+            </div>
+            <div className="flex flex-col gap-4">
+              <OpiumOrigins />
+              <PuppetInterview />
+              <CommunityChecklist />
+            </div>
           </div>
         </div>
 
-        <FaqSection />
-        <FunnyMediaSection />
+        <div className="content-auto">
+          <FaqSection />
+        </div>
+        <div className="content-auto">
+          <FunnyMediaSection />
+        </div>
 
-        <LicenseSection />
-        <NoCollabSection />
-        <LoreSection />
+        <div className="content-auto">
+          <LicenseSection />
+        </div>
+        <div className="content-auto">
+          <NoCollabSection />
+        </div>
+        <div className="content-auto">
+          <LoreSection />
+        </div>
       </main>
-      <SiteFooter />
+      <div className="content-auto">
+        <SiteFooter />
+      </div>
     </div>
   );
 }

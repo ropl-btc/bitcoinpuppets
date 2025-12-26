@@ -166,3 +166,8 @@ summary {
     background-position: 200% 50%;
   }
 }
+
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1200px;
+}
