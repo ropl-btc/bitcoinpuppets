@@ -14,16 +14,17 @@
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
+    "format": "prettier --write .",
     "prepare": "node .husky/install.mjs"
   },
-	"lint-staged": {
-		"*.{js,jsx,ts,tsx}": [
-			"eslint --max-warnings=0 --no-warn-ignored --fix"
-		],
-		"*": [
-			"secretlint"
-		]
-	},
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --max-warnings=0 --no-warn-ignored --fix"
+    ],
+    "*": [
+      "secretlint"
+    ]
+  },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.14.7",
     "next": "15.5.9",

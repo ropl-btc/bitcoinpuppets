@@ -3,6 +3,7 @@ import { MAGIC_EDEN_SORT_OPTIONS } from "@/lib/magicEden";
 export const COLLECTIONS = [
   { symbol: "bitcoin-puppets", label: "Bitcoin Puppets" },
   { symbol: "opium", label: "OPIUM" },
+  { symbol: "liquidium", label: "Liquidium.WTF Loans" },
 ] as const;
 
 export const DEFAULT_COLLECTION = "bitcoin-puppets";
@@ -14,6 +15,7 @@ export const SEARCH_MAX_MATCHES = 500;
 export const COLLECTION_TOTALS: Record<string, number> = {
   "bitcoin-puppets": 10001,
   opium: 777,
+  liquidium: 0,
 };
 
 export const SOCIAL_IMAGE = "/social_preview.png";
