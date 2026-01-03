@@ -51,6 +51,10 @@ export default function LiquidiumGallery({
   const [durationFilter, setDurationFilter] = useState<number | null>(null);
   type LiquidiumSort = "date" | "amount" | "duration" | "ltv-desc" | "ltv-asc";
   const [sortBy, setSortBy] = useState<LiquidiumSort>("date");
+  // Liquidium always uses the collection floor across all loans; guard against
+  // missing or zero values so LTV math stays meaningful.
+  const usableFloorPrice =
+    typeof floorPrice === "number" && floorPrice > 0 ? floorPrice : null;
 
   // Force a re-render to update "time remaining"
   const [, setTick] = useState(0);
@@ -66,6 +70,8 @@ export default function LiquidiumGallery({
       result = result.filter((l) => l.duration === durationFilter);
     }
 
+    const hasFloorPrice = usableFloorPrice !== null;
+
     result.sort((a, b) => {
       if (sortBy === "date") {
         return (
@@ -80,16 +86,28 @@ export default function LiquidiumGallery({
         return b.duration - a.duration;
       }
       if (sortBy === "ltv-desc") {
+        if (hasFloorPrice) {
+          return (
+            b.principal_amount_sats / (usableFloorPrice as number) -
+            a.principal_amount_sats / (usableFloorPrice as number)
+          );
+        }
         return b.principal_amount_sats - a.principal_amount_sats;
       }
       if (sortBy === "ltv-asc") {
+        if (hasFloorPrice) {
+          return (
+            a.principal_amount_sats / (usableFloorPrice as number) -
+            b.principal_amount_sats / (usableFloorPrice as number)
+          );
+        }
         return a.principal_amount_sats - b.principal_amount_sats;
       }
       return 0;
     });
 
     return result;
-  }, [loans, durationFilter, sortBy]);
+  }, [loans, durationFilter, sortBy, usableFloorPrice]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -141,10 +159,12 @@ export default function LiquidiumGallery({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filteredAndSortedLoans.map((loan) => {
-          const ltvValue = floorPrice
-            ? (loan.principal_amount_sats / floorPrice) * 100
-            : null;
-          const ltvText = ltvValue ? ltvValue.toFixed(1) : null;
+          const ltvValue =
+            typeof usableFloorPrice === "number"
+              ? (loan.principal_amount_sats / usableFloorPrice) * 100
+              : null;
+          const ltvText =
+            typeof ltvValue === "number" ? ltvValue.toFixed(1) : null;
           const timeRemaining = getTimeRemaining(
             loan.accepted_date,
             loan.duration,
@@ -203,13 +223,15 @@ export default function LiquidiumGallery({
                 <div className="flex items-center justify-between text-xs font-bold uppercase">
                   <span className="font-normal text-gray-500">Floor Price</span>
                   <span className="text-black">
-                    {floorPrice ? `${formatSats(floorPrice)} sats` : "N/A"}
+                    {typeof usableFloorPrice === "number"
+                      ? `${formatSats(usableFloorPrice)} sats`
+                      : "N/A"}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-xs font-bold uppercase">
                   <span className="font-normal text-gray-500">LTV Ratio</span>
                   <span className="font-bold" style={{ color: ltvColor }}>
-                    {ltvText ? `${ltvText}%` : "N/A"}
+                    {typeof ltvText === "string" ? `${ltvText}%` : "N/A"}
                   </span>
                 </div>
               </div>
