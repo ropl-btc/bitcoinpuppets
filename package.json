@@ -46,6 +46,6 @@
     "secretlint": "^11.2.5",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "wrangler": "^4.59.1"
+    "wrangler": "^4.61.0"
   }
 }
